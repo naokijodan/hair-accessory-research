@@ -205,7 +205,8 @@ def get_price_distribution(prices):
     bins = [0, 25, 50, 75, 100, 150, 200, 300, 500, 1000, float('inf')]
     labels = ['$0-24', '$25-49', '$50-74', '$75-99', '$100-149', '$150-199', '$200-299', '$300-499', '$500-999', '$1000+']
     distribution = pd.cut(prices, bins=bins, labels=labels).value_counts().sort_index()
-    return dict(distribution)
+    # numpy型をネイティブPython型に変換
+    return {k: int(v) for k, v in distribution.items()}
 
 price_dist = get_price_distribution(df['価格'])
 
