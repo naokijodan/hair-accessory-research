@@ -485,6 +485,34 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
     border-top: 3px solid #960200;
 }
 .ferragamo-accent { color: #960200; font-weight: bold; }
+
+/* PRADA固有のスタイル */
+#PRADA .stat-card {
+    background: linear-gradient(135deg, #00000015 0%, #00000005 100%);
+    border-top: 3px solid #000000;
+}
+.prada-accent { color: #000000; font-weight: bold; }
+
+/* HERMES固有のスタイル */
+#HERMES .stat-card {
+    background: linear-gradient(135deg, #FF660015 0%, #FF660005 100%);
+    border-top: 3px solid #FF6600;
+}
+.hermes-accent { color: #FF6600; font-weight: bold; }
+
+/* CELINE固有のスタイル */
+#CELINE .stat-card {
+    background: linear-gradient(135deg, #C4A77D15 0%, #C4A77D05 100%);
+    border-top: 3px solid #C4A77D;
+}
+.celine-accent { color: #C4A77D; font-weight: bold; }
+
+/* FENDI固有のスタイル */
+#FENDI .stat-card {
+    background: linear-gradient(135deg, #F7DB0015 0%, #F7DB0005 100%);
+    border-top: 3px solid #F7DB00;
+}
+.fendi-accent { color: #C4A000; font-weight: bold; }
 '''
 
 # HTML開始
@@ -539,10 +567,14 @@ html_parts.append(f'''<!DOCTYPE html>
         <button class="tab" onclick="showTab('recommend')">⭐ おすすめ出品順序</button>
         <button class="tab" onclick="showTab('CHANEL')">CHANEL</button>
         <button class="tab" onclick="showTab('LOUIS_VUITTON')">LOUIS VUITTON</button>
-        <button class="tab" onclick="showTab('DIOR')">DIOR</button>
-        <button class="tab" onclick="showTab('Salvatore_Ferragamo')">Salvatore Ferragamo</button>
         <button class="tab" onclick="showTab('Vivienne_Westwood')">Vivienne Westwood</button>
         <button class="tab" onclick="showTab('GUCCI')">GUCCI</button>
+        <button class="tab" onclick="showTab('PRADA')">PRADA</button>
+        <button class="tab" onclick="showTab('HERMES')">HERMES</button>
+        <button class="tab" onclick="showTab('Salvatore_Ferragamo')">Salvatore Ferragamo</button>
+        <button class="tab" onclick="showTab('DIOR')">DIOR</button>
+        <button class="tab" onclick="showTab('CELINE')">CELINE</button>
+        <button class="tab" onclick="showTab('FENDI')">FENDI</button>
     </div>
 ''')
 
@@ -648,6 +680,9 @@ html_parts.append(f'''
         <h2 class="section-title">💰 価格帯分布（50ドル刻み）</h2>
         <div class="chart-container"><div id="priceDistChart"></div></div>
 
+        <h2 class="section-title">📅 月別販売数推移（アイテムタイプ別）</h2>
+        <div class="chart-container"><div id="monthlyTrendChart"></div></div>
+
         <h2 class="section-title">🏷️ ブランド別詳細（Top20）</h2>
         <div class="table-container">
             <table>
@@ -668,9 +703,10 @@ html_parts.append(f'''
                 <tbody>
 ''')
 
-for stats in top20_brands:
+for idx, stats in enumerate(top20_brands):
     brand = stats['brand']
     brand_display = '不明' if brand == '(不明)' else brand
+    brand_id = brand.replace(' ', '_').replace('(', '').replace(')', '')
     median_jpy = int(stats['median_price'] * EXCHANGE_RATE)
     purchase_limit = int(stats['purchase_limit'])
     stability = get_stability(stats['cv'])
@@ -690,7 +726,9 @@ for stats in top20_brands:
                         <td>{stability}</td>
                         <td>
                             <a href="{ebay_url}" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="brand_{brand_id}_ebay">
                             <a href="{mercari_url}" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="brand_{brand_id}_mercari">
                         </td>
                     </tr>
 ''')
@@ -862,6 +900,8 @@ def generate_brand_tab(brand_name, tab_id, accent_class):
     for type_stats in item_stats:
         ratio = type_stats['sales'] / total_brand_sales * 100 if total_brand_sales > 0 else 0
         stability = get_stability(type_stats['cv'])
+        type_id = type_stats['type'].replace(' ', '_')
+        brand_id = brand_name.replace(' ', '_')
         ebay_url = f"https://www.ebay.com/sch/i.html?_nkw={brand_name.replace(' ', '+')}+{type_stats['type'].replace(' ', '+')}+Hair+Accessory&LH_Sold=1"
         mercari_url = f"https://jp.mercari.com/search?keyword={brand_name}%20{type_stats['type']}%20髪飾り&status=on_sale"
 
@@ -876,7 +916,9 @@ def generate_brand_tab(brand_name, tab_id, accent_class):
                         <td>{stability}</td>
                         <td>
                             <a href="{ebay_url}" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="{brand_id}_{type_id}_ebay">
                             <a href="{mercari_url}" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="{brand_id}_{type_id}_mercari">
                         </td>
                     </tr>
 '''
@@ -921,6 +963,7 @@ def generate_brand_tab(brand_name, tab_id, accent_class):
     for i, item in enumerate(popular_items, 1):
         title = str(item['タイトル'])[:80] + '...' if len(str(item['タイトル'])) > 80 else str(item['タイトル'])
         search_term = str(item['タイトル'])[:50].replace(' ', '+')
+        item_id = f"{tab_id}_top{i}"
         ebay_url = f"https://www.ebay.com/sch/i.html?_nkw={search_term}&LH_Sold=1"
         mercari_url = f"https://jp.mercari.com/search?keyword={str(item['タイトル'])[:30]}&status=on_sale"
 
@@ -933,7 +976,9 @@ def generate_brand_tab(brand_name, tab_id, accent_class):
                         <td class="highlight {accent_class}">¥{int(item["仕入れ上限"]):,}</td>
                         <td>
                             <a href="{ebay_url}" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="{item_id}_ebay">
                             <a href="{mercari_url}" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="{item_id}_mercari">
                         </td>
                     </tr>
 '''
@@ -946,14 +991,18 @@ def generate_brand_tab(brand_name, tab_id, accent_class):
 '''
     return tab_html
 
-# 各ブランドタブを生成
+# 各ブランドタブを生成（売上順）
 brand_tabs = [
     ('CHANEL', 'CHANEL', 'chanel-accent'),
     ('LOUIS VUITTON', 'LOUIS_VUITTON', 'lv-accent'),
-    ('DIOR', 'DIOR', 'dior-accent'),
-    ('Salvatore Ferragamo', 'Salvatore_Ferragamo', 'ferragamo-accent'),
     ('Vivienne Westwood', 'Vivienne_Westwood', 'vw-accent'),
     ('GUCCI', 'GUCCI', 'gucci-accent'),
+    ('PRADA', 'PRADA', 'prada-accent'),
+    ('HERMES', 'HERMES', 'hermes-accent'),
+    ('Salvatore Ferragamo', 'Salvatore_Ferragamo', 'ferragamo-accent'),
+    ('DIOR', 'DIOR', 'dior-accent'),
+    ('CELINE', 'CELINE', 'celine-accent'),
+    ('FENDI', 'FENDI', 'fendi-accent'),
 ]
 
 for brand_name, tab_id, accent_class in brand_tabs:
@@ -1025,6 +1074,8 @@ def generate_item_type_tab(item_type, tab_id):
         brand_display = '不明' if brand == '(不明)' else brand
         ratio = b_stats['sales'] / total_type_sales * 100 if total_type_sales > 0 else 0
         stability = get_stability(b_stats['cv'])
+        brand_id = brand.replace(' ', '_').replace('(', '').replace(')', '')
+        type_id = item_type.replace(' ', '_')
         ebay_url = f"https://www.ebay.com/sch/i.html?_nkw={brand.replace(' ', '+')}+{item_type.replace(' ', '+')}+Hair+Accessory&LH_Sold=1"
         mercari_url = f"https://jp.mercari.com/search?keyword={brand}%20{item_type}%20髪飾り&status=on_sale"
 
@@ -1039,7 +1090,9 @@ def generate_item_type_tab(item_type, tab_id):
                         <td>{stability}</td>
                         <td>
                             <a href="{ebay_url}" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="{type_id}_{brand_id}_ebay">
                             <a href="{mercari_url}" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="{type_id}_{brand_id}_mercari">
                         </td>
                     </tr>
 '''
@@ -1121,6 +1174,7 @@ novelty_brand_stats.sort(key=lambda x: x['sales'], reverse=True)
 for b_stats in novelty_brand_stats[:20]:
     brand = b_stats['brand']
     brand_display = '不明' if brand == '(不明)' else brand
+    brand_id = brand.replace(' ', '_').replace('(', '').replace(')', '')
     ebay_url = f"https://www.ebay.com/sch/i.html?_nkw={brand.replace(' ', '+')}+novelty+Hair+Accessory&LH_Sold=1"
     mercari_url = f"https://jp.mercari.com/search?keyword={brand}%20ノベルティ%20髪飾り&status=on_sale"
 
@@ -1132,7 +1186,9 @@ for b_stats in novelty_brand_stats[:20]:
                         <td class="highlight">¥{int(b_stats["purchase_limit"]):,}</td>
                         <td>
                             <a href="{ebay_url}" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="novelty_{brand_id}_ebay">
                             <a href="{mercari_url}" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="novelty_{brand_id}_mercari">
                         </td>
                     </tr>
 ''')
@@ -1331,6 +1387,18 @@ price_dist_values = list(price_dist.values())
 brand_top10_labels = [b['brand'] for b in top20_brands[:10]]
 brand_top10_sales = [b['sales'] for b in top20_brands[:10]]
 
+# 月別販売数推移データの準備
+df['販売月'] = pd.to_datetime(df['販売日']).dt.to_period('M').astype(str)
+months = sorted(df['販売月'].unique())
+item_types_for_chart = ['Headband', 'Barrette', 'Hair Clip', 'Tiara', 'Scrunchie', 'Other']
+
+monthly_data = {}
+for item_type in item_types_for_chart:
+    monthly_data[item_type] = []
+    for month in months:
+        type_month_df = df[(df['アイテムタイプ'] == item_type) & (df['販売月'] == month)]
+        monthly_data[item_type].append(int(type_month_df['販売数'].sum()))
+
 # 各ブランドの価格分布データ
 brand_price_dist = {}
 brand_item_type_dist = {}
@@ -1437,6 +1505,27 @@ html_parts.append(f'''
             type: 'bar',
             marker: {{ color: '#e91e63' }}
         }}], {{...plotlyLayout, title: '価格帯分布（50ドル刻み）', xaxis: {{ title: '価格帯' }}, yaxis: {{ title: '件数' }}}}, plotlyConfig);
+
+        // 月別販売数推移（アイテムタイプ別）
+        const monthlyTraces = [
+''')
+
+monthly_colors = ['#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#607d8b']
+for i, item_type in enumerate(item_types_for_chart):
+    color = monthly_colors[i % len(monthly_colors)]
+    html_parts.append(f'''            {{
+                x: {json.dumps(months)},
+                y: {json.dumps(monthly_data[item_type])},
+                name: '{item_type}',
+                type: 'scatter',
+                mode: 'lines+markers',
+                stackgroup: 'one',
+                line: {{ color: '{color}' }}
+            }},
+''')
+
+html_parts.append(f'''        ];
+        Plotly.newPlot('monthlyTrendChart', monthlyTraces, {{...plotlyLayout, title: '月別販売数推移（アイテムタイプ別）', xaxis: {{ title: '年月' }}, yaxis: {{ title: '販売数' }}}}, plotlyConfig);
 ''')
 
 # 各ブランドタブのグラフ
