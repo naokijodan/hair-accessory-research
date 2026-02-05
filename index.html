@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>髪飾りリサーチ 統合版 2026-02-06</title>
+<style>
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-card: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --border-color: #e0e0e0;
+  --accent-color: #2563eb;
+  --accent-hover: #1d4ed8;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+}
+
+[data-theme="dark"] {
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16213e;
+  --bg-card: #0f3460;
+  --text-primary: #e8e8e8;
+  --text-secondary: #a8a8a8;
+  --border-color: #3a3a5c;
+  --accent-color: #60a5fa;
+  --accent-hover: #3b82f6;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+header {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-color);
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+h1 { font-size: 1.5rem; font-weight: 600; }
+
+.header-controls { display: flex; gap: 10px; align-items: center; }
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-primary { background: var(--accent-color); color: white; }
+.btn-primary:hover { background: var(--accent-hover); }
+
+.btn-secondary {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.tabs {
+  display: flex;
+  gap: 5px;
+  padding: 15px 20px;
+  background: var(--bg-secondary);
+  overflow-x: auto;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 10px 20px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.tab:hover { background: var(--bg-card); }
+.tab.active {
+  background: var(--accent-color);
+  color: white;
+}
+
+.tab-content { display: none; padding: 20px; }
+.tab-content.active { display: block; }
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.summary-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.summary-card .value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-color);
+}
+
+.summary-card .label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.search-box {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.search-box input, .search-box select {
+  padding: 10px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.search-box input { flex: 1; min-width: 200px; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+th {
+  background: var(--bg-secondary);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+th:hover { background: var(--border-color); }
+
+tr:hover { background: var(--bg-secondary); }
+
+.price { font-weight: 600; color: var(--success-color); }
+.price-jpy { color: var(--text-secondary); font-size: 0.85rem; }
+
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.badge-high { background: #fee2e2; color: #dc2626; }
+.badge-designer { background: #fef3c7; color: #d97706; }
+.badge-character { background: #dbeafe; color: #2563eb; }
+.badge-novelty { background: #f3e8ff; color: #9333ea; }
+.badge-risk { background: #fecaca; color: #b91c1c; }
+
+.external-links { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.external-links a {
+  font-size: 0.8rem;
+  color: var(--accent-color);
+  text-decoration: none;
+  padding: 4px 8px;
+  border: 1px solid var(--accent-color);
+  border-radius: 4px;
+}
+
+.external-links a:hover { background: var(--accent-color); color: white; }
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.checkbox-wrapper input { width: 18px; height: 18px; cursor: pointer; }
+
+.chart-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.bar-chart { display: flex; flex-direction: column; gap: 10px; }
+
+.bar-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.bar-label { width: 150px; font-size: 0.9rem; text-align: right; }
+
+.bar-container {
+  flex: 1;
+  height: 30px;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-color), var(--success-color));
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  min-width: fit-content;
+}
+
+.exchange-rate {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.exchange-rate input {
+  width: 80px;
+  padding: 5px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  text-align: center;
+}
+
+.settings-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.settings-item label { display: block; margin-bottom: 5px; font-size: 0.9rem; }
+.settings-item input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.alert {
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.alert-warning {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  color: #92400e;
+}
+
+.alert-danger {
+  background: #fee2e2;
+  border: 1px solid #ef4444;
+  color: #991b1b;
+}
+
+@media (max-width: 768px) {
+  .summary-grid { grid-template-columns: repeat(2, 1fr); }
+  th, td { padding: 8px 10px; font-size: 0.8rem; }
+  .bar-label { width: 100px; font-size: 0.8rem; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>髪飾りリサーチ 統合版</h1>
+  <div class="header-controls">
+    <div class="exchange-rate">
+      <span>為替:</span>
+      <input type="number" id="exchangeRate" value="155" step="0.1">
+      <span>円/USD</span>
+      <button class="btn btn-primary" onclick="fetchExchangeRate()">取得</button>
+    </div>
+    <button class="btn btn-secondary" onclick="toggleTheme()">ダークモード</button>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" data-tab="overview">全体分析</button>
+  <button class="tab" data-tab="brands">ブランド別</button>
+  <button class="tab" data-tab="items">アイテム別</button>
+  <button class="tab" data-tab="recommend">おすすめ順</button>
+  <button class="tab" data-tab="novelty">ノベルティ</button>
+  <button class="tab" data-tab="alldata">全データ</button>
+  <button class="tab" data-tab="cites">CITES注意</button>
+</div>
+
+<div class="container">
+  <!-- 全体分析タブ -->
+  <div id="overview" class="tab-content active">
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="value" id="totalRecords">1,217</div>
+        <div class="label">総取引件数</div>
+      </div>
+      <div class="summary-card">
+        <div class="value" id="totalSales">1,562</div>
+        <div class="label">総販売数</div>
+      </div>
+      <div class="summary-card">
+        <div class="value" id="totalRevenue">$192,072</div>
+        <div class="label">総売上</div>
+      </div>
+      <div class="summary-card">
+        <div class="value" id="avgPrice">$158</div>
+        <div class="label">平均単価</div>
+      </div>
+      <div class="summary-card">
+        <div class="value">2025/02 - 2026/02</div>
+        <div class="label">データ期間</div>
+      </div>
+    </div>
+
+    <div class="settings-panel">
+      <h3>計算設定</h3>
+      <div class="settings-grid">
+        <div class="settings-item">
+          <label>送料（円）</label>
+          <input type="number" id="shippingCost" value="3000">
+        </div>
+        <div class="settings-item">
+          <label>手数料率（%）</label>
+          <input type="number" id="feeRate" value="20" step="1">
+        </div>
+        <div class="settings-item">
+          <label>為替レート（円/USD）</label>
+          <input type="number" id="exchangeRateSetting" value="155" step="0.1">
+        </div>
+      </div>
+      <button class="btn btn-primary" style="margin-top: 15px;" onclick="recalculate()">再計算</button>
+    </div>
+
+    <h3>ブランドカテゴリ別売上</h3>
+    <div class="chart-container">
+      <div class="bar-chart" id="brandCategoryChart"></div>
+    </div>
+
+    <h3>アイテムタイプ別売上</h3>
+    <div class="chart-container">
+      <div class="bar-chart" id="itemTypeChart"></div>
+    </div>
+  </div>
+
+  <!-- ブランド別タブ -->
+  <div id="brands" class="tab-content">
+    <h3>ブランド別分析（売上順）</h3>
+    <div class="search-box">
+      <input type="text" id="brandSearch" placeholder="ブランド名で検索..." oninput="filterBrandTable()">
+      <select id="brandCategoryFilter" onchange="filterBrandTable()">
+        <option value="">全カテゴリ</option>
+        <option value="ハイブランド">ハイブランド</option>
+        <option value="デザイナー">デザイナー</option>
+        <option value="キャラクター">キャラクター</option>
+        <option value="ノーブランド">ノーブランド</option>
+      </select>
+    </div>
+    <div style="overflow-x: auto;">
+      <table id="brandTable">
+        <thead>
+          <tr>
+            <th onclick="sortTable('brandTable', 0)">ブランド</th>
+            <th onclick="sortTable('brandTable', 1)">カテゴリ</th>
+            <th onclick="sortTable('brandTable', 2)">取引件数</th>
+            <th onclick="sortTable('brandTable', 3)">販売数</th>
+            <th onclick="sortTable('brandTable', 4)">売上($)</th>
+            <th onclick="sortTable('brandTable', 5)">平均価格</th>
+            <th onclick="sortTable('brandTable', 6)">中央値</th>
+            <th>リンク</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- アイテム別タブ -->
+  <div id="items" class="tab-content">
+    <h3>アイテムタイプ別分析</h3>
+    <div style="overflow-x: auto;">
+      <table id="itemTable">
+        <thead>
+          <tr>
+            <th onclick="sortTable('itemTable', 0)">アイテムタイプ</th>
+            <th onclick="sortTable('itemTable', 1)">取引件数</th>
+            <th onclick="sortTable('itemTable', 2)">販売数</th>
+            <th onclick="sortTable('itemTable', 3)">売上($)</th>
+            <th onclick="sortTable('itemTable', 4)">平均価格</th>
+            <th onclick="sortTable('itemTable', 5)">中央値</th>
+            <th>リンク</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- おすすめ順タブ -->
+  <div id="recommend" class="tab-content">
+    <h3>おすすめ出品順序（売上・回転率順）</h3>
+    <p style="color: var(--text-secondary); margin-bottom: 15px;">まとめ売り・CITES規制品を除外、2件以上の販売実績があるもの</p>
+    <div class="search-box">
+      <input type="text" id="recommendSearch" placeholder="検索..." oninput="filterRecommendTable()">
+    </div>
+    <div style="overflow-x: auto;">
+      <table id="recommendTable">
+        <thead>
+          <tr>
+            <th>順位</th>
+            <th onclick="sortTable('recommendTable', 1)">ブランド</th>
+            <th onclick="sortTable('recommendTable', 2)">タイプ</th>
+            <th onclick="sortTable('recommendTable', 3)">取引件数</th>
+            <th onclick="sortTable('recommendTable', 4)">販売数</th>
+            <th onclick="sortTable('recommendTable', 5)">売上($)</th>
+            <th onclick="sortTable('recommendTable', 6)">中央値($)</th>
+            <th onclick="sortTable('recommendTable', 7)">仕入上限(円)</th>
+            <th>チェック</th>
+            <th>リンク</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ノベルティタブ -->
+  <div id="novelty" class="tab-content">
+    <h3>ノベルティ品分析</h3>
+    <div class="alert alert-warning">
+      <span>注意: ノベルティ品は仕入れルートが限定的（百貨店購入特典、ビューティーカウンター等）です。</span>
+    </div>
+    <div style="overflow-x: auto;">
+      <table id="noveltyTable">
+        <thead>
+          <tr>
+            <th onclick="sortTable('noveltyTable', 0)">タイトル</th>
+            <th onclick="sortTable('noveltyTable', 1)">ブランド</th>
+            <th onclick="sortTable('noveltyTable', 2)">価格($)</th>
+            <th onclick="sortTable('noveltyTable', 3)">販売数</th>
+            <th onclick="sortTable('noveltyTable', 4)">仕入上限(円)</th>
+            <th>リンク</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 全データタブ -->
+  <div id="alldata" class="tab-content">
+    <h3>全データ一覧</h3>
+    <div class="search-box">
+      <input type="text" id="allSearch" placeholder="タイトル・ブランドで検索..." oninput="filterAllTable()">
+      <select id="allBrandFilter" onchange="filterAllTable()">
+        <option value="">全ブランド</option>
+      </select>
+      <select id="allTypeFilter" onchange="filterAllTable()">
+        <option value="">全タイプ</option>
+      </select>
+    </div>
+    <div style="overflow-x: auto;">
+      <table id="allTable">
+        <thead>
+          <tr>
+            <th onclick="sortTable('allTable', 0)">タイトル</th>
+            <th onclick="sortTable('allTable', 1)">ブランド</th>
+            <th onclick="sortTable('allTable', 2)">タイプ</th>
+            <th onclick="sortTable('allTable', 3)">価格($)</th>
+            <th onclick="sortTable('allTable', 4)">販売数</th>
+            <th onclick="sortTable('allTable', 5)">仕入上限</th>
+            <th>チェック</th>
+            <th>リンク</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div id="pagination" style="margin-top: 15px; text-align: center;"></div>
+  </div>
+
+  <!-- CITES注意タブ -->
+  <div id="cites" class="tab-content">
+    <div class="alert alert-danger">
+      <strong>警告: CITES規制品（ワシントン条約）</strong><br>
+      べっ甲（Tortoiseshell）・象牙（Ivory）を含む可能性がある商品です。<br>
+      これらの素材は国際取引が禁止されており、eBayでの出品禁止、税関での没収対象となります。<br>
+      出品前に必ず素材を確認し、本物のべっ甲・象牙の場合は絶対に出品しないでください。
+    </div>
+    <h3>CITES規制リスク品一覧（21件）</h3>
+    <div style="overflow-x: auto;">
+      <table id="citesTable">
+        <thead>
+          <tr>
+            <th>タイトル</th>
+            <th>ブランド</th>
+            <th>価格($)</th>
+            <th>リスクキーワード</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+// データ
+const analysisData = {
+  summary: {
+    total_records: 1217,
+    total_sales: 1562,
+    total_revenue: 192071.81,
+    period: "2025-02-06 ~ 2026-02-04"
+  },
+  brand_category_stats: {
+    "ハイブランド": { count: 480, sales: 566, revenue: 119853.98, avg_price: 235.85, median_price: 181.0 },
+    "ノーブランド": { count: 524, sales: 696, revenue: 38445.95, avg_price: 69.26, median_price: 29.90 },
+    "デザイナー": { count: 121, sales: 159, revenue: 26055.25, avg_price: 142.06, median_price: 119.0 },
+    "その他": { count: 38, sales: 70, revenue: 6001.26, avg_price: 94.56, median_price: 97.0 },
+    "キャラクター": { count: 54, sales: 71, revenue: 1715.37, avg_price: 24.05, median_price: 17.87 }
+  },
+  item_type_stats: {
+    "Headband": { count: 295, sales: 344, revenue: 50807.57, avg_price: 159.59, median_price: 93.0 },
+    "Barrette": { count: 171, sales: 210, revenue: 33179.49, avg_price: 192.35, median_price: 145.37 },
+    "Hair Clip": { count: 300, sales: 435, revenue: 30361.67, avg_price: 88.57, median_price: 41.22 },
+    "Other": { count: 273, sales: 336, revenue: 39019.45, avg_price: 130.35, median_price: 89.0 },
+    "Tiara": { count: 42, sales: 81, revenue: 16673.98, avg_price: 192.23, median_price: 208.98 },
+    "Scrunchie": { count: 57, sales: 75, revenue: 12501.55, avg_price: 209.06, median_price: 179.0 },
+    "Kanzashi": { count: 53, sales: 53, revenue: 6361.05, avg_price: 120.02, median_price: 89.99 },
+    "Comb": { count: 26, sales: 28, revenue: 3167.05, avg_price: 119.43, median_price: 84.0 }
+  }
+};
+
+const brandStats = [
+  { brand: "CHANEL", category: "ハイブランド", count: 164, sales: 195, revenue: 50235.48, avg: 297.38, median: 228.20 },
+  { brand: "(不明)", category: "ノーブランド", count: 524, sales: 696, revenue: 38445.95, avg: 69.26, median: 29.90 },
+  { brand: "LOUIS VUITTON", category: "ハイブランド", count: 90, sales: 93, revenue: 27769.33, avg: 283.17, median: 205.20 },
+  { brand: "Vivienne Westwood", category: "デザイナー", count: 33, sales: 70, revenue: 15857.82, avg: 221.08, median: 211.54 },
+  { brand: "GUCCI", category: "ハイブランド", count: 68, sales: 69, revenue: 10995.69, avg: 159.43, median: 156.20 },
+  { brand: "PRADA", category: "ハイブランド", count: 34, sales: 34, revenue: 8632.20, avg: 253.89, median: 266.98 },
+  { brand: "HERMES", category: "ハイブランド", count: 37, sales: 37, revenue: 8451.64, avg: 228.42, median: 209.0 },
+  { brand: "Salvatore Ferragamo", category: "デザイナー", count: 78, sales: 78, revenue: 7299.70, avg: 93.59, median: 84.58 },
+  { brand: "DIOR", category: "ハイブランド", count: 44, sales: 81, revenue: 4720.01, avg: 75.83, median: 48.87 },
+  { brand: "CELINE", category: "ハイブランド", count: 15, sales: 27, revenue: 4687.19, avg: 239.30, median: 184.0 },
+  { brand: "FENDI", category: "ハイブランド", count: 28, sales: 30, revenue: 4362.44, avg: 146.48, median: 133.30 },
+  { brand: "SANRIO", category: "キャラクター", count: 30, sales: 37, revenue: 760.42, avg: 17.77, median: 13.99 },
+  { brand: "Disney", category: "キャラクター", count: 11, sales: 16, revenue: 495.79, avg: 35.60, median: 19.27 }
+];
+
+const recommendations = [
+  { rank: 1, brand: "CHANEL", type: "Barrette", trans: 60, sales: 60, revenue: 18542.92, median: 315.0, limit: 36060 },
+  { rank: 2, brand: "Vivienne Westwood", type: "Tiara", trans: 33, sales: 70, revenue: 15857.82, median: 211.54, limit: 23231 },
+  { rank: 3, brand: "CHANEL", type: "Headband", trans: 24, sales: 24, revenue: 12704.84, median: 477.70, limit: 56235 },
+  { rank: 4, brand: "LOUIS VUITTON", type: "Headband", trans: 12, sales: 14, revenue: 7730.72, median: 435.0, limit: 50940 },
+  { rank: 5, brand: "GUCCI", type: "Headband", trans: 39, sales: 40, revenue: 7120.42, median: 173.60, limit: 18526 },
+  { rank: 6, brand: "CHANEL", type: "Other", trans: 23, sales: 23, revenue: 6347.24, median: 198.81, limit: 21652 },
+  { rank: 7, brand: "LOUIS VUITTON", type: "Other", trans: 27, sales: 28, revenue: 4682.87, median: 110.0, limit: 10640 },
+  { rank: 8, brand: "PRADA", type: "Headband", trans: 17, sales: 17, revenue: 4177.08, median: 240.0, limit: 26760 },
+  { rank: 9, brand: "LOUIS VUITTON", type: "Barrette", trans: 14, sales: 14, revenue: 4116.66, median: 240.0, limit: 26760 },
+  { rank: 10, brand: "Salvatore Ferragamo", type: "Headband", trans: 38, sales: 38, revenue: 3652.12, median: 87.0, limit: 7788 },
+  { rank: 11, brand: "LOUIS VUITTON", type: "Scrunchie", trans: 12, sales: 12, revenue: 3393.18, median: 227.87, limit: 25256 },
+  { rank: 12, brand: "CHANEL", type: "Hair Clip", trans: 16, sales: 19, revenue: 3160.53, median: 98.18, limit: 9174 },
+  { rank: 13, brand: "CHANEL", type: "Scrunchie", trans: 5, sales: 5, revenue: 2667.36, median: 550.0, limit: 65200 },
+  { rank: 14, brand: "PRADA", type: "Hair Clip", trans: 10, sales: 10, revenue: 2564.54, median: 289.27, limit: 32869 },
+  { rank: 15, brand: "LOUIS VUITTON", type: "Hair Clip", trans: 7, sales: 7, revenue: 2535.61, median: 418.0, limit: 48832 },
+  { rank: 16, brand: "FENDI", type: "Headband", trans: 14, sales: 15, revenue: 2356.42, median: 143.26, limit: 14765 },
+  { rank: 17, brand: "Salvatore Ferragamo", type: "Barrette", trans: 26, sales: 26, revenue: 2305.36, median: 84.50, limit: 7478 },
+  { rank: 18, brand: "GUCCI", type: "Other", trans: 18, sales: 18, revenue: 1977.01, median: 89.0, limit: 8036 },
+  { rank: 19, brand: "HERMES", type: "Scrunchie", trans: 8, sales: 8, revenue: 1825.0, median: 225.0, limit: 24899 },
+  { rank: 20, brand: "CELINE", type: "Headband", trans: 7, sales: 7, revenue: 1820.22, median: 249.30, limit: 27913 }
+];
+
+const noveltyData = [
+  { title: "Chanel Beaute Hair Pin Hair Clip Hair Accessory Limited Black Novelty 3 Pcs Set", brand: "CHANEL", price: 40.59, sales: 7, limit: 2025 },
+  { title: "Chanel Black Hair Clip with logo Set of 3 Novelty hair accessory New", brand: "CHANEL", price: 47.94, sales: 4, limit: 2935 },
+  { title: "Christian Dior Beaute Scrunchie Hairband Novelty Satin Pink from Japan", brand: "DIOR", price: 27.97, sales: 3, limit: 464 },
+  { title: "Disney store Japan Nick Wilde Hair Clip Set Costume Accessory", brand: "Disney", price: 19.27, sales: 3, limit: -615 },
+  { title: "Vivienne Westwood Orb Horn Tiara Pink Gold Headpiece Accessorie Japan New", brand: "Vivienne Westwood", price: 211.54, sales: 7, limit: 23231 },
+  { title: "CHANEL Hairpin Set of 6 Novelty accessory novelty not for sale from Japan", brand: "CHANEL", price: 116.42, sales: 1, limit: 11434 },
+  { title: "Chanel Hair Band White Black 2 piece set Ribbon w/box Limited Novelty RARE", brand: "CHANEL", price: 70.0, sales: 1, limit: 5680 },
+  { title: "CHANEL Hair Band Pink Towel w/Box LIMITED novelty SUBLIMAGE", brand: "CHANEL", price: 50.64, sales: 1, limit: 3279 },
+  { title: "Dior Beauty Backstage Pink Hair Clips Get Ready 2 piece set Novelty GWP NEW", brand: "DIOR", price: 55.0, sales: 1, limit: 3820 },
+  { title: "Christian Dior Hair band Logo Pink Novelty accessories", brand: "DIOR", price: 35.4, sales: 1, limit: 1390 }
+];
+
+const citesRiskData = [
+  { title: "Paris AD66S French Side Comb Large Curved Tortoiseshell Crystals Hair Combs", brand: "(不明)", price: 37.99, keyword: "Tortoiseshell" },
+  { title: "Fendi Becco Barrette Hair Clip Brown Tortoiseshell Vintage Accessory Stylish", brand: "FENDI", price: 70.0, keyword: "Tortoiseshell" },
+  { title: "Anya Hindmarch Chubby Mini Wallet Soft Leather Ivory White", brand: "Anya Hindmarch", price: 235.0, keyword: "Ivory" },
+  { title: "Kikuchi Hair accessories Kanzashi Genuine tortoiseshell with Amber Beads", brand: "(不明)", price: 241.60, keyword: "tortoiseshell" },
+  { title: "Japanese Geisha Kanzashi Kimono Hairpin comb White Nanten Bekko tone", brand: "(不明)", price: 94.67, keyword: "Bekko" },
+  { title: "CELINE Logo Headband Brown Tortoise Pattern With Original Box", brand: "CELINE", price: 184.0, keyword: "Tortoise" },
+  { title: "FENDI Tortoiseshell Hair Clip Barrette with Logo - Made in Italy", brand: "FENDI", price: 52.25, keyword: "Tortoiseshell" },
+  { title: "Japanese Comb & Kogai Kanzashi Antique Tortoiseshell tone Hair ornament", brand: "(不明)", price: 44.99, keyword: "Tortoiseshell" },
+  { title: "Kanzashi Japanese Hair Ornaments Tortoise Peony From Japan Seller", brand: "(不明)", price: 86.0, keyword: "Tortoise" },
+  { title: "Kanzashi Tortoiseshell kimono Hair stick Hairpin Set From Japan", brand: "(不明)", price: 60.0, keyword: "Tortoiseshell" },
+  { title: "Japanese Kinju Antique Comb and Hairpin Set w/Bonus Genuine Tortoise Shell", brand: "(不明)", price: 95.0, keyword: "Tortoise Shell" }
+];
+
+let settings = {
+  shipping: 3000,
+  feeRate: 0.20,
+  exchangeRate: 155
+};
+
+let checkedItems = JSON.parse(localStorage.getItem('hairAccessoryChecked') || '{}');
+
+// 初期化
+document.addEventListener('DOMContentLoaded', () => {
+  initTabs();
+  renderCharts();
+  renderBrandTable();
+  renderItemTable();
+  renderRecommendTable();
+  renderNoveltyTable();
+  renderCitesTable();
+  loadSettings();
+});
+
+function initTabs() {
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.tab).classList.add('active');
+    });
+  });
+}
+
+function toggleTheme() {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? '' : 'dark');
+  localStorage.setItem('theme', isDark ? '' : 'dark');
+}
+
+// Load saved theme
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.setAttribute('data-theme', 'dark');
+}
+
+function loadSettings() {
+  const saved = localStorage.getItem('hairAccessorySettings');
+  if (saved) {
+    settings = JSON.parse(saved);
+    document.getElementById('shippingCost').value = settings.shipping;
+    document.getElementById('feeRate').value = settings.feeRate * 100;
+    document.getElementById('exchangeRateSetting').value = settings.exchangeRate;
+    document.getElementById('exchangeRate').value = settings.exchangeRate;
+  }
+}
+
+function recalculate() {
+  settings.shipping = parseFloat(document.getElementById('shippingCost').value);
+  settings.feeRate = parseFloat(document.getElementById('feeRate').value) / 100;
+  settings.exchangeRate = parseFloat(document.getElementById('exchangeRateSetting').value);
+  document.getElementById('exchangeRate').value = settings.exchangeRate;
+  localStorage.setItem('hairAccessorySettings', JSON.stringify(settings));
+  renderRecommendTable();
+  renderNoveltyTable();
+  alert('再計算完了');
+}
+
+async function fetchExchangeRate() {
+  try {
+    const res = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+    const data = await res.json();
+    const rate = data.rates.JPY;
+    document.getElementById('exchangeRate').value = rate.toFixed(2);
+    document.getElementById('exchangeRateSetting').value = rate.toFixed(2);
+    settings.exchangeRate = rate;
+    localStorage.setItem('hairAccessorySettings', JSON.stringify(settings));
+    alert('為替レート取得: ' + rate.toFixed(2) + ' 円/USD');
+  } catch (e) {
+    alert('為替レート取得失敗');
+  }
+}
+
+function renderCharts() {
+  const brandCat = analysisData.brand_category_stats;
+  const maxRevenue = Math.max(...Object.values(brandCat).map(v => v.revenue));
+
+  let html = '';
+  const sorted = Object.entries(brandCat).sort((a, b) => b[1].revenue - a[1].revenue);
+  sorted.forEach(([name, data]) => {
+    const pct = (data.revenue / maxRevenue * 100).toFixed(0);
+    html += `
+      <div class="bar-item">
+        <div class="bar-label">${name}</div>
+        <div class="bar-container">
+          <div class="bar" style="width: ${pct}%">$${data.revenue.toLocaleString()}</div>
+        </div>
+      </div>
+    `;
+  });
+  document.getElementById('brandCategoryChart').innerHTML = html;
+
+  const itemType = analysisData.item_type_stats;
+  const maxItemRevenue = Math.max(...Object.values(itemType).map(v => v.revenue));
+
+  let itemHtml = '';
+  const itemSorted = Object.entries(itemType).sort((a, b) => b[1].revenue - a[1].revenue);
+  itemSorted.forEach(([name, data]) => {
+    const pct = (data.revenue / maxItemRevenue * 100).toFixed(0);
+    itemHtml += `
+      <div class="bar-item">
+        <div class="bar-label">${name}</div>
+        <div class="bar-container">
+          <div class="bar" style="width: ${pct}%">$${data.revenue.toLocaleString()}</div>
+        </div>
+      </div>
+    `;
+  });
+  document.getElementById('itemTypeChart').innerHTML = itemHtml;
+}
+
+function renderBrandTable() {
+  const tbody = document.querySelector('#brandTable tbody');
+  let html = '';
+  brandStats.forEach(b => {
+    const badge = getBrandBadge(b.category);
+    html += `
+      <tr data-brand="${b.brand}" data-category="${b.category}">
+        <td><strong>${b.brand}</strong></td>
+        <td><span class="badge ${badge.class}">${badge.label}</span></td>
+        <td>${b.count}</td>
+        <td>${b.sales}</td>
+        <td class="price">$${b.revenue.toLocaleString()}</td>
+        <td>$${b.avg.toFixed(2)}</td>
+        <td>$${b.median.toFixed(2)}</td>
+        <td class="external-links">
+          <a href="https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(b.brand + ' hair accessory')}&LH_Sold=1&LH_Complete=1" target="_blank">eBay実績</a>
+          <a href="https://jp.mercari.com/search?keyword=${encodeURIComponent(b.brand + ' ヘアアクセサリー')}&status=on_sale" target="_blank">メルカリ</a>
+        </td>
+      </tr>
+    `;
+  });
+  tbody.innerHTML = html;
+}
+
+function renderItemTable() {
+  const tbody = document.querySelector('#itemTable tbody');
+  const items = Object.entries(analysisData.item_type_stats).sort((a, b) => b[1].revenue - a[1].revenue);
+  let html = '';
+  items.forEach(([name, data]) => {
+    html += `
+      <tr>
+        <td><strong>${name}</strong></td>
+        <td>${data.count}</td>
+        <td>${data.sales}</td>
+        <td class="price">$${data.revenue.toLocaleString()}</td>
+        <td>$${data.avg_price.toFixed(2)}</td>
+        <td>$${data.median_price.toFixed(2)}</td>
+        <td class="external-links">
+          <a href="https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(name + ' hair')}&LH_Sold=1&LH_Complete=1" target="_blank">eBay実績</a>
+          <a href="https://jp.mercari.com/search?keyword=${encodeURIComponent(name === 'Headband' ? 'カチューシャ' : name === 'Hair Clip' ? 'ヘアクリップ' : name === 'Barrette' ? 'バレッタ' : name === 'Tiara' ? 'ティアラ' : name === 'Scrunchie' ? 'シュシュ' : name === 'Kanzashi' ? 'かんざし' : name)}&status=on_sale" target="_blank">メルカリ</a>
+        </td>
+      </tr>
+    `;
+  });
+  tbody.innerHTML = html;
+}
+
+function renderRecommendTable() {
+  const tbody = document.querySelector('#recommendTable tbody');
+  let html = '';
+  recommendations.forEach(r => {
+    const limit = calcPurchaseLimit(r.median);
+    const key = `${r.brand}_${r.type}`;
+    const checked = checkedItems[key] ? 'checked' : '';
+    html += `
+      <tr data-key="${key}">
+        <td><strong>#${r.rank}</strong></td>
+        <td>${r.brand}</td>
+        <td>${r.type}</td>
+        <td>${r.trans}</td>
+        <td>${r.sales}</td>
+        <td class="price">$${r.revenue.toLocaleString()}</td>
+        <td>$${r.median.toFixed(2)}</td>
+        <td class="price-jpy">¥${limit.toLocaleString()}</td>
+        <td class="checkbox-wrapper">
+          <input type="checkbox" ${checked} onchange="toggleCheck('${key}')">
+        </td>
+        <td class="external-links">
+          <a href="https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(r.brand + ' ' + r.type)}&LH_Sold=1&LH_Complete=1" target="_blank">eBay</a>
+          <a href="https://jp.mercari.com/search?keyword=${encodeURIComponent(r.brand + ' ' + (r.type === 'Headband' ? 'カチューシャ' : r.type === 'Barrette' ? 'バレッタ' : r.type === 'Tiara' ? 'ティアラ' : r.type))}&status=on_sale" target="_blank">メルカリ</a>
+        </td>
+      </tr>
+    `;
+  });
+  tbody.innerHTML = html;
+}
+
+function renderNoveltyTable() {
+  const tbody = document.querySelector('#noveltyTable tbody');
+  let html = '';
+  noveltyData.forEach(n => {
+    const limit = calcPurchaseLimit(n.price);
+    html += `
+      <tr>
+        <td>${n.title.substring(0, 60)}...</td>
+        <td>${n.brand}</td>
+        <td class="price">$${n.price.toFixed(2)}</td>
+        <td>${n.sales}</td>
+        <td class="price-jpy">¥${limit.toLocaleString()}</td>
+        <td class="external-links">
+          <a href="https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(n.brand + ' novelty hair')}&LH_Sold=1&LH_Complete=1" target="_blank">eBay</a>
+          <a href="https://jp.mercari.com/search?keyword=${encodeURIComponent(n.brand + ' ノベルティ ヘア')}&status=on_sale" target="_blank">メルカリ</a>
+        </td>
+      </tr>
+    `;
+  });
+  tbody.innerHTML = html;
+}
+
+function renderCitesTable() {
+  const tbody = document.querySelector('#citesTable tbody');
+  let html = '';
+  citesRiskData.forEach(c => {
+    html += `
+      <tr>
+        <td>${c.title}</td>
+        <td>${c.brand}</td>
+        <td class="price">$${c.price.toFixed(2)}</td>
+        <td><span class="badge badge-risk">${c.keyword}</span></td>
+      </tr>
+    `;
+  });
+  tbody.innerHTML = html;
+}
+
+function calcPurchaseLimit(priceUsd) {
+  return Math.round(priceUsd * settings.exchangeRate * (1 - settings.feeRate) - settings.shipping);
+}
+
+function getBrandBadge(category) {
+  switch (category) {
+    case 'ハイブランド': return { class: 'badge-high', label: 'ハイブランド' };
+    case 'デザイナー': return { class: 'badge-designer', label: 'デザイナー' };
+    case 'キャラクター': return { class: 'badge-character', label: 'キャラクター' };
+    default: return { class: '', label: category };
+  }
+}
+
+function toggleCheck(key) {
+  checkedItems[key] = !checkedItems[key];
+  localStorage.setItem('hairAccessoryChecked', JSON.stringify(checkedItems));
+}
+
+function filterBrandTable() {
+  const search = document.getElementById('brandSearch').value.toLowerCase();
+  const category = document.getElementById('brandCategoryFilter').value;
+  document.querySelectorAll('#brandTable tbody tr').forEach(row => {
+    const brand = row.dataset.brand.toLowerCase();
+    const cat = row.dataset.category;
+    const matchSearch = brand.includes(search);
+    const matchCategory = !category || cat === category;
+    row.style.display = matchSearch && matchCategory ? '' : 'none';
+  });
+}
+
+function filterRecommendTable() {
+  const search = document.getElementById('recommendSearch').value.toLowerCase();
+  document.querySelectorAll('#recommendTable tbody tr').forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(search) ? '' : 'none';
+  });
+}
+
+function filterAllTable() {
+  const search = document.getElementById('allSearch').value.toLowerCase();
+  document.querySelectorAll('#allTable tbody tr').forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(search) ? '' : 'none';
+  });
+}
+
+function sortTable(tableId, colIndex) {
+  const table = document.getElementById(tableId);
+  const tbody = table.querySelector('tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+
+  const isNumeric = colIndex >= 2;
+
+  rows.sort((a, b) => {
+    let aVal = a.cells[colIndex].textContent.trim();
+    let bVal = b.cells[colIndex].textContent.trim();
+
+    if (isNumeric) {
+      aVal = parseFloat(aVal.replace(/[$,¥#]/g, '')) || 0;
+      bVal = parseFloat(bVal.replace(/[$,¥#]/g, '')) || 0;
+      return bVal - aVal;
+    }
+    return aVal.localeCompare(bVal, 'ja');
+  });
+
+  rows.forEach(row => tbody.appendChild(row));
+}
+</script>
+</body>
+</html>
