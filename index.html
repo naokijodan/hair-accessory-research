@@ -318,6 +318,13 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
 }
 .fendi-accent { color: #C4A000; font-weight: bold; }
 
+/* Alexandre de Paris固有のスタイル */
+#Alexandre_de_Paris .stat-card {
+    background: linear-gradient(135deg, #8B000015 0%, #8B000005 100%);
+    border-top: 3px solid #8B0000;
+}
+.adp-accent { color: #8B0000; font-weight: bold; }
+
     </style>
 </head>
 <body>
@@ -326,7 +333,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
             <button onclick="toggleTheme()" id="themeBtn">🌙 ダークモード</button>
         </div>
         <h1>🎀 髪飾り市場分析（完全版）</h1>
-        <p>データ期間: 2025-02-06 ~ 2026-02-04 | 生成: 2026-02-06 01:51:27 | 総件数: 1217件</p>
+        <p>データ期間: 2025-02-06 ~ 2026-02-04 | 生成: 2026-02-06 01:57:46 | 総件数: 1217件</p>
     </div>
 
     <div class="controls">
@@ -368,6 +375,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
         <button class="tab" onclick="showTab('DIOR')">DIOR</button>
         <button class="tab" onclick="showTab('CELINE')">CELINE</button>
         <button class="tab" onclick="showTab('FENDI')">FENDI</button>
+        <button class="tab" onclick="showTab('Alexandre_de_Paris')">Alexandre de Paris</button>
     </div>
 
     <!-- 全体分析タブ -->
@@ -398,7 +406,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
         <div class="insight-box">
             <h3>💡 市場インサイト</h3>
             <ul>
-                <li>🔝 最大カテゴリ: ハイブランド (566件) とノーブランド (696件) で市場の大半を占める</li>
+                <li>🔝 最大カテゴリ: ハイブランド (566件) とノーブランド (636件) で市場の大半を占める</li>
                 <li>💎 高価格帯: Vivienne Westwood Tiara ($211中央値) が市場を牽引</li>
                 <li>⚡ 回転率重視: Headband・Hair Clipは低価格で回転が早い（エントリー層向け）</li>
                 <li>🎁 ノベルティ市場: 112件の取引あり（CHANELが最多）</li>
@@ -449,13 +457,13 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
 
                     <tr>
                         <td><strong>不明</strong></td>
-                        <td>696</td>
+                        <td>636</td>
                         <td>$0.99</td>
                         <td>$690.00</td>
-                        <td>$29.89</td>
-                        <td>¥4,633</td>
-                        <td class="highlight">¥706</td>
-                        <td>1.317</td>
+                        <td>$26.84</td>
+                        <td>¥4,160</td>
+                        <td class="highlight">¥328</td>
+                        <td>1.425</td>
                         <td>☆☆☆</td>
                         <td>
                             <a href="https://www.ebay.com/sch/i.html?_nkw=(不明)+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
@@ -521,13 +529,13 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
 
                     <tr>
                         <td><strong>Salvatore Ferragamo</strong></td>
-                        <td>78</td>
+                        <td>79</td>
                         <td>$28.87</td>
                         <td>$250.99</td>
-                        <td>$84.58</td>
-                        <td>¥13,109</td>
-                        <td class="highlight">¥7,487</td>
-                        <td>0.462</td>
+                        <td>$85.00</td>
+                        <td>¥13,175</td>
+                        <td class="highlight">¥7,540</td>
+                        <td>0.460</td>
                         <td>★★☆</td>
                         <td>
                             <a href="https://www.ebay.com/sch/i.html?_nkw=Salvatore+Ferragamo+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
@@ -610,6 +618,24 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                     </tr>
 
                     <tr>
+                        <td><strong>Alexandre de Paris</strong></td>
+                        <td>36</td>
+                        <td>$15.00</td>
+                        <td>$413.00</td>
+                        <td>$109.06</td>
+                        <td>¥16,903</td>
+                        <td class="highlight">¥10,522</td>
+                        <td>0.517</td>
+                        <td>★☆☆</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Alexandre+de+Paris+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="brand_Alexandre_de_Paris_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Alexandre de Paris%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="brand_Alexandre_de_Paris_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
                         <td><strong>PRADA</strong></td>
                         <td>34</td>
                         <td>$70.00</td>
@@ -660,6 +686,24 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                             <input type="checkbox" class="search-checkbox" data-id="brand_CELINE_ebay">
                             <a href="https://jp.mercari.com/search?keyword=CELINE%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
                             <input type="checkbox" class="search-checkbox" data-id="brand_CELINE_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Miu Miu</strong></td>
+                        <td>20</td>
+                        <td>$20.00</td>
+                        <td>$474.99</td>
+                        <td>$248.68</td>
+                        <td>¥38,545</td>
+                        <td class="highlight">¥27,836</td>
+                        <td>0.686</td>
+                        <td>★☆☆</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Miu+Miu+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="brand_Miu_Miu_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Miu Miu%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="brand_Miu_Miu_mercari">
                         </td>
                     </tr>
 
@@ -754,56 +798,20 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                     </tr>
 
                     <tr>
-                        <td><strong>BURBERRY</strong></td>
-                        <td>6</td>
-                        <td>$57.20</td>
-                        <td>$245.00</td>
-                        <td>$112.75</td>
-                        <td>¥17,475</td>
-                        <td class="highlight">¥10,980</td>
-                        <td>0.544</td>
-                        <td>★☆☆</td>
-                        <td>
-                            <a href="https://www.ebay.com/sch/i.html?_nkw=BURBERRY+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
-                            <input type="checkbox" class="search-checkbox" data-id="brand_BURBERRY_ebay">
-                            <a href="https://jp.mercari.com/search?keyword=BURBERRY%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
-                            <input type="checkbox" class="search-checkbox" data-id="brand_BURBERRY_mercari">
-                        </td>
-                    </tr>
-
-                    <tr>
                         <td><strong>H&M</strong></td>
-                        <td>4</td>
+                        <td>6</td>
                         <td>$99.00</td>
                         <td>$273.80</td>
-                        <td>$146.37</td>
-                        <td>¥22,687</td>
-                        <td class="highlight">¥15,149</td>
-                        <td>0.452</td>
+                        <td>$134.66</td>
+                        <td>¥20,871</td>
+                        <td class="highlight">¥13,697</td>
+                        <td>0.403</td>
                         <td>★★☆</td>
                         <td>
                             <a href="https://www.ebay.com/sch/i.html?_nkw=H&M+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
                             <input type="checkbox" class="search-checkbox" data-id="brand_H&M_ebay">
                             <a href="https://jp.mercari.com/search?keyword=H&M%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
                             <input type="checkbox" class="search-checkbox" data-id="brand_H&M_mercari">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><strong>SWAROVSKI</strong></td>
-                        <td>4</td>
-                        <td>$15.00</td>
-                        <td>$100.00</td>
-                        <td>$100.00</td>
-                        <td>¥15,500</td>
-                        <td class="highlight">¥9,400</td>
-                        <td>0.685</td>
-                        <td>★☆☆</td>
-                        <td>
-                            <a href="https://www.ebay.com/sch/i.html?_nkw=SWAROVSKI+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
-                            <input type="checkbox" class="search-checkbox" data-id="brand_SWAROVSKI_ebay">
-                            <a href="https://jp.mercari.com/search?keyword=SWAROVSKI%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
-                            <input type="checkbox" class="search-checkbox" data-id="brand_SWAROVSKI_mercari">
                         </td>
                     </tr>
 
@@ -834,11 +842,11 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                     <tr>
                         <td><strong>不明</strong></td>
                         <td>ノーブランド</td>
-                        <td>696</td>
-                        <td>$38,445.95</td>
-                        <td>$29.89</td>
-                        <td>¥706</td>
-                        <td>1.317</td>
+                        <td>636</td>
+                        <td>$30,304.03</td>
+                        <td>$26.84</td>
+                        <td>¥328</td>
+                        <td>1.425</td>
                         <td>☆☆☆</td>
                     </tr>
 
@@ -878,11 +886,11 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                     <tr>
                         <td><strong>Salvatore Ferragamo</strong></td>
                         <td>デザイナー</td>
-                        <td>78</td>
-                        <td>$7,299.70</td>
-                        <td>$84.58</td>
-                        <td>¥7,487</td>
-                        <td>0.462</td>
+                        <td>79</td>
+                        <td>$7,434.70</td>
+                        <td>$85.00</td>
+                        <td>¥7,540</td>
+                        <td>0.460</td>
                         <td>★★☆</td>
                     </tr>
 
@@ -931,6 +939,17 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                     </tr>
 
                     <tr>
+                        <td><strong>Alexandre de Paris</strong></td>
+                        <td>デザイナー</td>
+                        <td>36</td>
+                        <td>$4,459.50</td>
+                        <td>$109.06</td>
+                        <td>¥10,522</td>
+                        <td>0.517</td>
+                        <td>★☆☆</td>
+                    </tr>
+
+                    <tr>
                         <td><strong>PRADA</strong></td>
                         <td>ハイブランド</td>
                         <td>34</td>
@@ -961,6 +980,17 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         <td>¥19,816</td>
                         <td>0.493</td>
                         <td>★★☆</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Miu Miu</strong></td>
+                        <td>デザイナー</td>
+                        <td>20</td>
+                        <td>$3,204.75</td>
+                        <td>$248.68</td>
+                        <td>¥27,836</td>
+                        <td>0.686</td>
+                        <td>★☆☆</td>
                     </tr>
 
                     <tr>
@@ -1019,6 +1049,17 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                     </tr>
 
                     <tr>
+                        <td><strong>H&M</strong></td>
+                        <td>デザイナー</td>
+                        <td>6</td>
+                        <td>$919.11</td>
+                        <td>$134.66</td>
+                        <td>¥13,697</td>
+                        <td>0.403</td>
+                        <td>★★☆</td>
+                    </tr>
+
+                    <tr>
                         <td><strong>BURBERRY</strong></td>
                         <td>デザイナー</td>
                         <td>6</td>
@@ -1027,17 +1068,6 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         <td>¥10,980</td>
                         <td>0.544</td>
                         <td>★☆☆</td>
-                    </tr>
-
-                    <tr>
-                        <td><strong>H&M</strong></td>
-                        <td>デザイナー</td>
-                        <td>4</td>
-                        <td>$665.54</td>
-                        <td>$146.37</td>
-                        <td>¥15,149</td>
-                        <td>0.452</td>
-                        <td>★★☆</td>
                     </tr>
 
                     <tr>
@@ -1179,6 +1209,17 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         <td>$245.47</td>
                         <td>$245.47</td>
                         <td>¥27,438</td>
+                        <td>nan</td>
+                        <td>☆☆☆</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>colette malouf</strong></td>
+                        <td>デザイナー</td>
+                        <td>1</td>
+                        <td>$89.10</td>
+                        <td>$89.10</td>
+                        <td>¥8,048</td>
                         <td>nan</td>
                         <td>☆☆☆</td>
                     </tr>
@@ -3689,15 +3730,15 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="label">総販売数</div>
-                <div class="value">78</div>
+                <div class="value">79</div>
             </div>
             <div class="stat-card">
                 <div class="label">中央値</div>
-                <div class="value">$84.58</div>
+                <div class="value">$85.00</div>
             </div>
             <div class="stat-card">
                 <div class="label">CV（変動係数）</div>
-                <div class="value">0.462</div>
+                <div class="value">0.460</div>
             </div>
             <div class="stat-card">
                 <div class="label">ノベルティプレミアム</div>
@@ -3711,7 +3752,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                 <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; border-left: 4px solid #1976d2;">
                     <h4 style="color: #1976d2; margin-bottom: 10px;">✅ 狙い目条件</h4>
                     <ul style="margin-left: 20px;">
-                        <li><strong class="ferragamo-accent">箱・保証書付き</strong>（<span class="ferragamo-accent">-5.9%</span>プレミアム）</li>
+                        <li><strong class="ferragamo-accent">箱・保証書付き</strong>（<span class="ferragamo-accent">-8.0%</span>プレミアム）</li>
                         <li>型番・モデル名が<strong>明確に記載</strong>されている商品</li>
                         <li><strong class="ferragamo-accent">ノベルティ・限定品</strong>（<span class="ferragamo-accent">+0.0%</span>プレミアム）</li>
                         <li>人気アイテムタイプ：<strong>Headband, Barrette, Ribbon</strong></li>
@@ -3727,7 +3768,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                 </div>
                 <div style="background: #f3e5f5; padding: 15px; border-radius: 8px; border-left: 4px solid #7b1fa2;">
                     <h4 style="color: #7b1fa2; margin-bottom: 10px;">💰 仕入れ価格目安</h4>
-                    <p style="margin: 0;"><strong>通常商品:</strong> ¥7,487以下</p>
+                    <p style="margin: 0;"><strong>通常商品:</strong> ¥7,540以下</p>
                     <p style="margin: 5px 0 0 0;"><strong class="ferragamo-accent">箱付き・美品:</strong> $85前後が上限（中央値基準）</p>
                 </div>
             </div>
@@ -3764,11 +3805,11 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
 
                     <tr>
                         <td><strong>Headband</strong></td>
-                        <td>40</td>
-                        <td class="ferragamo-accent">51.3%</td>
-                        <td>$89.50</td>
-                        <td class="highlight ferragamo-accent">¥8,098</td>
-                        <td>0.443</td>
+                        <td>41</td>
+                        <td class="ferragamo-accent">51.9%</td>
+                        <td>$90.00</td>
+                        <td class="highlight ferragamo-accent">¥8,160</td>
+                        <td>0.437</td>
                         <td>★★☆</td>
                         <td>
                             <a href="https://www.ebay.com/sch/i.html?_nkw=Salvatore+Ferragamo+Headband+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
@@ -3781,7 +3822,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                     <tr>
                         <td><strong>Barrette</strong></td>
                         <td>27</td>
-                        <td class="ferragamo-accent">34.6%</td>
+                        <td class="ferragamo-accent">34.2%</td>
                         <td>$80.00</td>
                         <td class="highlight ferragamo-accent">¥6,920</td>
                         <td>0.478</td>
@@ -3797,7 +3838,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                     <tr>
                         <td><strong>Ribbon</strong></td>
                         <td>5</td>
-                        <td class="ferragamo-accent">6.4%</td>
+                        <td class="ferragamo-accent">6.3%</td>
                         <td>$76.50</td>
                         <td class="highlight ferragamo-accent">¥6,486</td>
                         <td>0.333</td>
@@ -3829,7 +3870,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                     <tr>
                         <td><strong>Hair Clip</strong></td>
                         <td>2</td>
-                        <td class="ferragamo-accent">2.6%</td>
+                        <td class="ferragamo-accent">2.5%</td>
                         <td>$172.60</td>
                         <td class="highlight ferragamo-accent">¥18,402</td>
                         <td>0.225</td>
@@ -3858,7 +3899,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
             </div>
             <div class="stat-card">
                 <div class="label">💰 総売上</div>
-                <div class="value">$7,299.70</div>
+                <div class="value">$7,434.70</div>
             </div>
         </div>
 
@@ -5322,6 +5363,400 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
         </div>
     </div>
 
+    <!-- Alexandre de Parisタブ -->
+    <div id="Alexandre_de_Paris" class="tab-content">
+        <h2 class="section-title adp-accent">📊 Alexandre de Paris 詳細分析</h2>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="label">総販売数</div>
+                <div class="value">36</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">中央値</div>
+                <div class="value">$109.06</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">CV（変動係数）</div>
+                <div class="value">0.517</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">ノベルティプレミアム</div>
+                <div class="value adp-accent">+0.0%</div>
+            </div>
+        </div>
+
+        <div class="insight-box" style="border-left: 5px solid #ff6b35;">
+            <h3 class="adp-accent">🎯 仕入れ戦略（実践ガイド）</h3>
+            <div style="display: grid; gap: 15px;">
+                <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; border-left: 4px solid #1976d2;">
+                    <h4 style="color: #1976d2; margin-bottom: 10px;">✅ 狙い目条件</h4>
+                    <ul style="margin-left: 20px;">
+                        <li><strong class="adp-accent">箱・保証書付き</strong>（<span class="adp-accent">+0.0%</span>プレミアム）</li>
+                        <li>型番・モデル名が<strong>明確に記載</strong>されている商品</li>
+                        <li><strong class="adp-accent">ノベルティ・限定品</strong>（<span class="adp-accent">+0.0%</span>プレミアム）</li>
+                        <li>人気アイテムタイプ：<strong>Barrette, Hair Clip, Headband</strong></li>
+                    </ul>
+                </div>
+                <div style="background: #fff3e0; padding: 15px; border-radius: 8px; border-left: 4px solid #ff6b35;">
+                    <h4 style="color: #ff6b35; margin-bottom: 10px;">⚠️ 避けるべき条件</h4>
+                    <ul style="margin-left: 20px;">
+                        <li>まとめ売り・セット品（単価が不明確）</li>
+                        <li>状態不明・説明が曖昧な商品</li>
+                        <li>偽物リスクの高い格安品</li>
+                    </ul>
+                </div>
+                <div style="background: #f3e5f5; padding: 15px; border-radius: 8px; border-left: 4px solid #7b1fa2;">
+                    <h4 style="color: #7b1fa2; margin-bottom: 10px;">💰 仕入れ価格目安</h4>
+                    <p style="margin: 0;"><strong>通常商品:</strong> ¥10,522以下</p>
+                    <p style="margin: 5px 0 0 0;"><strong class="adp-accent">箱付き・美品:</strong> $109前後が上限（中央値基準）</p>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="section-title adp-accent">📊 市場分析グラフ</h3>
+        <div class="brand-grid">
+            <div class="brand-chart-container">
+                <h4 class="adp-accent">価格帯別分析（50ドル刻み）</h4>
+                <div id="Alexandre_de_Paris_price_chart" style="height: 350px;"></div>
+            </div>
+            <div class="brand-chart-container">
+                <h4 class="adp-accent">アイテムタイプ別分布</h4>
+                <div id="Alexandre_de_Paris_item_chart" style="height: 350px;"></div>
+            </div>
+        </div>
+
+        <h3 class="section-title adp-accent">🎀 アイテムタイプ別詳細分析</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>アイテムタイプ</th>
+                        <th>販売数</th>
+                        <th class="adp-accent">比率</th>
+                        <th>中央値</th>
+                        <th class="adp-accent">仕入上限(¥)</th>
+                        <th>CV値</th>
+                        <th>安定度</th>
+                        <th>検索</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td><strong>Barrette</strong></td>
+                        <td>18</td>
+                        <td class="adp-accent">50.0%</td>
+                        <td>$97.00</td>
+                        <td class="highlight adp-accent">¥9,028</td>
+                        <td>0.717</td>
+                        <td>☆☆☆</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Alexandre+de+Paris+Barrette+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_Barrette_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Alexandre de Paris%20Barrette%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_Barrette_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Hair Clip</strong></td>
+                        <td>8</td>
+                        <td class="adp-accent">22.2%</td>
+                        <td>$129.10</td>
+                        <td class="highlight adp-accent">¥13,008</td>
+                        <td>0.295</td>
+                        <td>★★★</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Alexandre+de+Paris+Hair+Clip+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_Hair_Clip_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Alexandre de Paris%20Hair Clip%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_Hair_Clip_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Headband</strong></td>
+                        <td>6</td>
+                        <td class="adp-accent">16.7%</td>
+                        <td>$137.50</td>
+                        <td class="highlight adp-accent">¥14,050</td>
+                        <td>0.293</td>
+                        <td>★★★</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Alexandre+de+Paris+Headband+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_Headband_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Alexandre de Paris%20Headband%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_Headband_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Other</strong></td>
+                        <td>4</td>
+                        <td class="adp-accent">11.1%</td>
+                        <td>$129.67</td>
+                        <td class="highlight adp-accent">¥13,078</td>
+                        <td>0.278</td>
+                        <td>★★★</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Alexandre+de+Paris+Other+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_Other_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Alexandre de Paris%20Other%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_Other_mercari">
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="section-title adp-accent">💡 Alexandre de Parisの特徴</h3>
+        <div class="stats-grid" style="margin-bottom: 20px;">
+            <div class="stat-card">
+                <div class="label">🎁 ノベルティ品</div>
+                <div class="value adp-accent">0件</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">📦 まとめ売り</div>
+                <div class="value">0件</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">💰 総売上</div>
+                <div class="value">$4,459.50</div>
+            </div>
+        </div>
+
+        <h3 class="section-title adp-accent">📌 人気商品（実データより）Top15</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>順位</th>
+                        <th>商品タイトル</th>
+                        <th>販売数</th>
+                        <th>価格</th>
+                        <th class="adp-accent">仕入上限(¥)</th>
+                        <th>検索</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td><strong class="adp-accent">1</strong></td>
+                        <td class="model-sample">Alexandre De Paris Valletta Hair Accessories Rhinestones</td>
+                        <td>1</td>
+                        <td>$81.00</td>
+                        <td class="highlight adp-accent">¥7,044</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Alexandre+De+Paris+Valletta+Hair+Accessories+Rhine&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top1_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Alexandre De Paris Valletta Ha&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top1_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong class="adp-accent">2</strong></td>
+                        <td class="model-sample">Alexandre de Paris Hair Barrette Clip Maple Leaf Motif Brown Beige</td>
+                        <td>1</td>
+                        <td>$77.00</td>
+                        <td class="highlight adp-accent">¥6,548</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Alexandre+de+Paris+Hair+Barrette+Clip+Maple+Leaf+M&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top2_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Alexandre de Paris Hair Barret&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top2_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong class="adp-accent">3</strong></td>
+                        <td class="model-sample">ALEXANDRE DE PARIS Fleurette Barrette Flower 3.7 inch Beige Bautiful from Japan</td>
+                        <td>1</td>
+                        <td>$144.90</td>
+                        <td class="highlight adp-accent">¥14,967</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=ALEXANDRE+DE+PARIS+Fleurette+Barrette+Flower+3.7+i&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top3_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=ALEXANDRE DE PARIS Fleurette B&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top3_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong class="adp-accent">4</strong></td>
+                        <td class="model-sample">Alexandre De Paris Beaded hairpin hair accessory black 5-0813G∞</td>
+                        <td>1</td>
+                        <td>$68.00</td>
+                        <td class="highlight adp-accent">¥5,432</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Alexandre+De+Paris+Beaded+hairpin+hair+accessory+b&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top4_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Alexandre De Paris Beaded hair&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top4_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong class="adp-accent">5</strong></td>
+                        <td class="model-sample">Alexandre de Paris Fleurette Barrette Flower Beige Rhinestones France Used</td>
+                        <td>1</td>
+                        <td>$95.00</td>
+                        <td class="highlight adp-accent">¥8,780</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Alexandre+de+Paris+Fleurette+Barrette+Flower+Beige&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top5_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Alexandre de Paris Fleurette B&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top5_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong class="adp-accent">6</strong></td>
+                        <td class="model-sample">ALEXANDRE DE PARIS Hair  Women's Heart Hair Accessory Hair Clip one in 4 Colors</td>
+                        <td>1</td>
+                        <td>$168.40</td>
+                        <td class="highlight adp-accent">¥17,881</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=ALEXANDRE+DE+PARIS+Hair++Women's+Heart+Hair+Access&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top6_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=ALEXANDRE DE PARIS Hair  Women&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top6_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong class="adp-accent">7</strong></td>
+                        <td class="model-sample">ALEXANDRE DE PARIS Velvet Ribon Headband Mint Condition! Dark Brown Velor Lame</td>
+                        <td>1</td>
+                        <td>$156.00</td>
+                        <td class="highlight adp-accent">¥16,344</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=ALEXANDRE+DE+PARIS+Velvet+Ribon+Headband+Mint+Cond&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top7_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=ALEXANDRE DE PARIS Velvet Ribo&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top7_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong class="adp-accent">8</strong></td>
+                        <td class="model-sample">Boxed Alexandre De Paris Flower Barrette Clip Pink</td>
+                        <td>1</td>
+                        <td>$105.00</td>
+                        <td class="highlight adp-accent">¥10,020</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Boxed+Alexandre+De+Paris+Flower+Barrette+Clip+Pink&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top8_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Boxed Alexandre De Paris Flowe&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top8_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong class="adp-accent">9</strong></td>
+                        <td class="model-sample">ALEXANDRE DE PARIS Hair pin Excellent condition</td>
+                        <td>1</td>
+                        <td>$100.00</td>
+                        <td class="highlight adp-accent">¥9,400</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=ALEXANDRE+DE+PARIS+Hair+pin+Excellent+condition&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top9_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=ALEXANDRE DE PARIS Hair pin Ex&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top9_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong class="adp-accent">10</strong></td>
+                        <td class="model-sample">Auth ALEXANDRE de PARIS - Cream Light Green Acetate Rhinestones Other Jewellery</td>
+                        <td>1</td>
+                        <td>$156.00</td>
+                        <td class="highlight adp-accent">¥16,344</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Auth+ALEXANDRE+de+PARIS+-+Cream+Light+Green+Acetat&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top10_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Auth ALEXANDRE de PARIS - Crea&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top10_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong class="adp-accent">11</strong></td>
+                        <td class="model-sample">Alexandre De Paris Flower Valletta Hair Claw Pink Orange Used</td>
+                        <td>1</td>
+                        <td>$166.95</td>
+                        <td class="highlight adp-accent">¥17,701</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Alexandre+De+Paris+Flower+Valletta+Hair+Claw+Pink+&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top11_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Alexandre De Paris Flower Vall&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top11_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong class="adp-accent">12</strong></td>
+                        <td class="model-sample">Alexandre De Paris Leather Ribbon Barrette Beage /Sr42 Women'S</td>
+                        <td>1</td>
+                        <td>$77.00</td>
+                        <td class="highlight adp-accent">¥6,548</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Alexandre+De+Paris+Leather+Ribbon+Barrette+Beage+/&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top12_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Alexandre De Paris Leather Rib&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top12_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong class="adp-accent">13</strong></td>
+                        <td class="model-sample">ALEXANDRE DE PARIS Barrette 3.1 inch Flower Shape</td>
+                        <td>1</td>
+                        <td>$100.00</td>
+                        <td class="highlight adp-accent">¥9,400</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=ALEXANDRE+DE+PARIS+Barrette+3.1+inch+Flower+Shape&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top13_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=ALEXANDRE DE PARIS Barrette 3.&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top13_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong class="adp-accent">14</strong></td>
+                        <td class="model-sample">ALEXANDRE DE PARIS Ribbon Barrette Pink 3.5 inch</td>
+                        <td>1</td>
+                        <td>$96.00</td>
+                        <td class="highlight adp-accent">¥8,904</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=ALEXANDRE+DE+PARIS+Ribbon+Barrette+Pink+3.5+inch&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top14_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=ALEXANDRE DE PARIS Ribbon Barr&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top14_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong class="adp-accent">15</strong></td>
+                        <td class="model-sample">Alexandre De Paris Ivory Flower Hairpin Hair Accessories Used</td>
+                        <td>1</td>
+                        <td>$128.20</td>
+                        <td class="highlight adp-accent">¥12,896</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Alexandre+De+Paris+Ivory+Flower+Hairpin+Hair+Acces&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top15_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Alexandre De Paris Ivory Flowe&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Alexandre_de_Paris_top15_mercari">
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <!-- Headbandタブ -->
     <div id="headband" class="tab-content">
         <h2 class="section-title">📊 Headband 市場分析</h2>
@@ -5364,17 +5799,33 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
 
                     <tr>
                         <td><strong>不明</strong></td>
-                        <td>114</td>
-                        <td>33.1%</td>
-                        <td>$23.06</td>
-                        <td class="highlight">¥-139</td>
-                        <td>1.236</td>
+                        <td>105</td>
+                        <td>30.5%</td>
+                        <td>$22.79</td>
+                        <td class="highlight">¥-174</td>
+                        <td>1.304</td>
                         <td>☆☆☆</td>
                         <td>
                             <a href="https://www.ebay.com/sch/i.html?_nkw=(不明)+Headband+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
                             <input type="checkbox" class="search-checkbox" data-id="Headband_不明_ebay">
                             <a href="https://jp.mercari.com/search?keyword=(不明)%20Headband%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
                             <input type="checkbox" class="search-checkbox" data-id="Headband_不明_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Salvatore Ferragamo</strong></td>
+                        <td>41</td>
+                        <td>11.9%</td>
+                        <td>$90.00</td>
+                        <td class="highlight">¥8,160</td>
+                        <td>0.437</td>
+                        <td>★★☆</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Salvatore+Ferragamo+Headband+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Headband_Salvatore_Ferragamo_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Salvatore Ferragamo%20Headband%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Headband_Salvatore_Ferragamo_mercari">
                         </td>
                     </tr>
 
@@ -5391,22 +5842,6 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                             <input type="checkbox" class="search-checkbox" data-id="Headband_GUCCI_ebay">
                             <a href="https://jp.mercari.com/search?keyword=GUCCI%20Headband%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
                             <input type="checkbox" class="search-checkbox" data-id="Headband_GUCCI_mercari">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><strong>Salvatore Ferragamo</strong></td>
-                        <td>40</td>
-                        <td>11.6%</td>
-                        <td>$89.50</td>
-                        <td class="highlight">¥8,098</td>
-                        <td>0.443</td>
-                        <td>★★☆</td>
-                        <td>
-                            <a href="https://www.ebay.com/sch/i.html?_nkw=Salvatore+Ferragamo+Headband+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
-                            <input type="checkbox" class="search-checkbox" data-id="Headband_Salvatore_Ferragamo_ebay">
-                            <a href="https://jp.mercari.com/search?keyword=Salvatore Ferragamo%20Headband%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
-                            <input type="checkbox" class="search-checkbox" data-id="Headband_Salvatore_Ferragamo_mercari">
                         </td>
                     </tr>
 
@@ -5555,6 +5990,22 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                     </tr>
 
                     <tr>
+                        <td><strong>Alexandre de Paris</strong></td>
+                        <td>6</td>
+                        <td>1.7%</td>
+                        <td>$137.50</td>
+                        <td class="highlight">¥14,050</td>
+                        <td>0.293</td>
+                        <td>★★★</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Alexandre+de+Paris+Headband+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Headband_Alexandre_de_Paris_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Alexandre de Paris%20Headband%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Headband_Alexandre_de_Paris_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
                         <td><strong>BURBERRY</strong></td>
                         <td>5</td>
                         <td>1.5%</td>
@@ -5635,6 +6086,22 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                     </tr>
 
                     <tr>
+                        <td><strong>Miu Miu</strong></td>
+                        <td>2</td>
+                        <td>0.6%</td>
+                        <td>$172.50</td>
+                        <td class="highlight">¥18,390</td>
+                        <td>0.061</td>
+                        <td>★★★</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Miu+Miu+Headband+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Headband_Miu_Miu_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Miu Miu%20Headband%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Headband_Miu_Miu_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
                         <td><strong>SWAROVSKI</strong></td>
                         <td>1</td>
                         <td>0.3%</td>
@@ -5647,22 +6114,6 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                             <input type="checkbox" class="search-checkbox" data-id="Headband_SWAROVSKI_ebay">
                             <a href="https://jp.mercari.com/search?keyword=SWAROVSKI%20Headband%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
                             <input type="checkbox" class="search-checkbox" data-id="Headband_SWAROVSKI_mercari">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><strong>RICOH</strong></td>
-                        <td>1</td>
-                        <td>0.3%</td>
-                        <td>$16.90</td>
-                        <td class="highlight">¥-904</td>
-                        <td>nan</td>
-                        <td>☆☆☆</td>
-                        <td>
-                            <a href="https://www.ebay.com/sch/i.html?_nkw=RICOH+Headband+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
-                            <input type="checkbox" class="search-checkbox" data-id="Headband_RICOH_ebay">
-                            <a href="https://jp.mercari.com/search?keyword=RICOH%20Headband%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
-                            <input type="checkbox" class="search-checkbox" data-id="Headband_RICOH_mercari">
                         </td>
                     </tr>
 
@@ -5713,11 +6164,11 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
 
                     <tr>
                         <td><strong>不明</strong></td>
-                        <td>86</td>
-                        <td>41.0%</td>
-                        <td>$38.75</td>
-                        <td class="highlight">¥1,804</td>
-                        <td>1.161</td>
+                        <td>66</td>
+                        <td>31.4%</td>
+                        <td>$13.30</td>
+                        <td class="highlight">¥-1,350</td>
+                        <td>1.577</td>
                         <td>☆☆☆</td>
                         <td>
                             <a href="https://www.ebay.com/sch/i.html?_nkw=(不明)+Barrette+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
@@ -5756,6 +6207,22 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                             <input type="checkbox" class="search-checkbox" data-id="Barrette_Salvatore_Ferragamo_ebay">
                             <a href="https://jp.mercari.com/search?keyword=Salvatore Ferragamo%20Barrette%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
                             <input type="checkbox" class="search-checkbox" data-id="Barrette_Salvatore_Ferragamo_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Alexandre de Paris</strong></td>
+                        <td>18</td>
+                        <td>8.6%</td>
+                        <td>$97.00</td>
+                        <td class="highlight">¥9,028</td>
+                        <td>0.717</td>
+                        <td>☆☆☆</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Alexandre+de+Paris+Barrette+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Barrette_Alexandre_de_Paris_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Alexandre de Paris%20Barrette%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Barrette_Alexandre_de_Paris_mercari">
                         </td>
                     </tr>
 
@@ -5840,6 +6307,22 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                     </tr>
 
                     <tr>
+                        <td><strong>Miu Miu</strong></td>
+                        <td>1</td>
+                        <td>0.5%</td>
+                        <td>$239.36</td>
+                        <td class="highlight">¥26,680</td>
+                        <td>nan</td>
+                        <td>☆☆☆</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Miu+Miu+Barrette+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Barrette_Miu_Miu_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Miu Miu%20Barrette%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Barrette_Miu_Miu_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
                         <td><strong>SWAROVSKI</strong></td>
                         <td>1</td>
                         <td>0.5%</td>
@@ -5868,6 +6351,22 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                             <input type="checkbox" class="search-checkbox" data-id="Barrette_BURBERRY_ebay">
                             <a href="https://jp.mercari.com/search?keyword=BURBERRY%20Barrette%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
                             <input type="checkbox" class="search-checkbox" data-id="Barrette_BURBERRY_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>colette malouf</strong></td>
+                        <td>1</td>
+                        <td>0.5%</td>
+                        <td>$89.10</td>
+                        <td class="highlight">¥8,048</td>
+                        <td>nan</td>
+                        <td>☆☆☆</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=colette+malouf+Barrette+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Barrette_colette_malouf_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=colette malouf%20Barrette%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Barrette_colette_malouf_mercari">
                         </td>
                     </tr>
 
@@ -5966,10 +6465,10 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
 
                     <tr>
                         <td><strong>不明</strong></td>
-                        <td>254</td>
-                        <td>51.8%</td>
-                        <td>$26.51</td>
-                        <td class="highlight">¥287</td>
+                        <td>230</td>
+                        <td>46.9%</td>
+                        <td>$23.44</td>
+                        <td class="highlight">¥-93</td>
                         <td>1.415</td>
                         <td>☆☆☆</td>
                         <td>
@@ -6041,6 +6540,22 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                             <input type="checkbox" class="search-checkbox" data-id="Hair_Clip_CELINE_ebay">
                             <a href="https://jp.mercari.com/search?keyword=CELINE%20Hair Clip%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
                             <input type="checkbox" class="search-checkbox" data-id="Hair_Clip_CELINE_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Miu Miu</strong></td>
+                        <td>16</td>
+                        <td>3.3%</td>
+                        <td>$274.04</td>
+                        <td class="highlight">¥30,980</td>
+                        <td>0.806</td>
+                        <td>☆☆☆</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Miu+Miu+Hair+Clip+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Hair_Clip_Miu_Miu_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Miu Miu%20Hair Clip%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Hair_Clip_Miu_Miu_mercari">
                         </td>
                     </tr>
 
@@ -6121,6 +6636,22 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                             <input type="checkbox" class="search-checkbox" data-id="Hair_Clip_Disney_ebay">
                             <a href="https://jp.mercari.com/search?keyword=Disney%20Hair Clip%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
                             <input type="checkbox" class="search-checkbox" data-id="Hair_Clip_Disney_mercari">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Alexandre de Paris</strong></td>
+                        <td>8</td>
+                        <td>1.6%</td>
+                        <td>$129.10</td>
+                        <td class="highlight">¥13,008</td>
+                        <td>0.295</td>
+                        <td>★★★</td>
+                        <td>
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=Alexandre+de+Paris+Hair+Clip+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Hair_Clip_Alexandre_de_Paris_ebay">
+                            <a href="https://jp.mercari.com/search?keyword=Alexandre de Paris%20Hair Clip%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
+                            <input type="checkbox" class="search-checkbox" data-id="Hair_Clip_Alexandre_de_Paris_mercari">
                         </td>
                     </tr>
 
@@ -6249,38 +6780,6 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                             <input type="checkbox" class="search-checkbox" data-id="Hair_Clip_ON_ebay">
                             <a href="https://jp.mercari.com/search?keyword=ON%20Hair Clip%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
                             <input type="checkbox" class="search-checkbox" data-id="Hair_Clip_ON_mercari">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><strong>Nintendo</strong></td>
-                        <td>1</td>
-                        <td>0.2%</td>
-                        <td>$59.84</td>
-                        <td class="highlight">¥4,420</td>
-                        <td>nan</td>
-                        <td>☆☆☆</td>
-                        <td>
-                            <a href="https://www.ebay.com/sch/i.html?_nkw=Nintendo+Hair+Clip+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
-                            <input type="checkbox" class="search-checkbox" data-id="Hair_Clip_Nintendo_ebay">
-                            <a href="https://jp.mercari.com/search?keyword=Nintendo%20Hair Clip%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
-                            <input type="checkbox" class="search-checkbox" data-id="Hair_Clip_Nintendo_mercari">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><strong>VERSACE</strong></td>
-                        <td>1</td>
-                        <td>0.2%</td>
-                        <td>$219.90</td>
-                        <td class="highlight">¥24,267</td>
-                        <td>nan</td>
-                        <td>☆☆☆</td>
-                        <td>
-                            <a href="https://www.ebay.com/sch/i.html?_nkw=VERSACE+Hair+Clip+Hair+Accessory&LH_Sold=1" target="_blank" class="link-btn link-ebay">eBay</a>
-                            <input type="checkbox" class="search-checkbox" data-id="Hair_Clip_VERSACE_ebay">
-                            <a href="https://jp.mercari.com/search?keyword=VERSACE%20Hair Clip%20髪飾り&status=on_sale" target="_blank" class="link-btn link-mercari">メルカリ</a>
-                            <input type="checkbox" class="search-checkbox" data-id="Hair_Clip_VERSACE_mercari">
                         </td>
                     </tr>
 
@@ -6975,11 +7474,11 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                             <td><strong>3</strong></td>
                             <td>Salvatore Ferragamo</td>
                             <td>Headband</td>
-                            <td>38</td>
-                            <td>$87.00</td>
-                            <td>¥7,788</td>
+                            <td>39</td>
+                            <td>$89.00</td>
+                            <td>¥8,036</td>
                             <td>★★☆</td>
-                            <td>295,944</td>
+                            <td>313,404</td>
                         </tr>
 
                         <tr>
@@ -7061,6 +7560,39 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
 
                         <tr>
                             <td><strong>11</strong></td>
+                            <td>Alexandre de Paris</td>
+                            <td>Hair Clip</td>
+                            <td>7</td>
+                            <td>$130.00</td>
+                            <td>¥13,120</td>
+                            <td>★★☆</td>
+                            <td>91,840</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>12</strong></td>
+                            <td>Alexandre de Paris</td>
+                            <td>Headband</td>
+                            <td>6</td>
+                            <td>$137.50</td>
+                            <td>¥14,050</td>
+                            <td>★★★</td>
+                            <td>84,300</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>13</strong></td>
+                            <td>H&M</td>
+                            <td>Other</td>
+                            <td>6</td>
+                            <td>$134.66</td>
+                            <td>¥13,697</td>
+                            <td>★★☆</td>
+                            <td>82,183</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>14</strong></td>
                             <td>DOLCE & GABBANA</td>
                             <td>Headband</td>
                             <td>3</td>
@@ -7071,7 +7603,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         </tr>
 
                         <tr>
-                            <td><strong>12</strong></td>
+                            <td><strong>15</strong></td>
                             <td>adidas</td>
                             <td>Other</td>
                             <td>6</td>
@@ -7082,7 +7614,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         </tr>
 
                         <tr>
-                            <td><strong>13</strong></td>
+                            <td><strong>16</strong></td>
                             <td>BURBERRY</td>
                             <td>Headband</td>
                             <td>5</td>
@@ -7093,18 +7625,18 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         </tr>
 
                         <tr>
-                            <td><strong>14</strong></td>
-                            <td>H&M</td>
+                            <td><strong>17</strong></td>
+                            <td>Alexandre de Paris</td>
                             <td>Other</td>
                             <td>4</td>
-                            <td>$146.37</td>
-                            <td>¥15,149</td>
-                            <td>★★☆</td>
-                            <td>60,599</td>
+                            <td>$129.67</td>
+                            <td>¥13,078</td>
+                            <td>★★★</td>
+                            <td>52,313</td>
                         </tr>
 
                         <tr>
-                            <td><strong>15</strong></td>
+                            <td><strong>18</strong></td>
                             <td>FENDI</td>
                             <td>Other</td>
                             <td>3</td>
@@ -7115,7 +7647,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         </tr>
 
                         <tr>
-                            <td><strong>16</strong></td>
+                            <td><strong>19</strong></td>
                             <td>FENDI</td>
                             <td>Barrette</td>
                             <td>3</td>
@@ -7126,7 +7658,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         </tr>
 
                         <tr>
-                            <td><strong>17</strong></td>
+                            <td><strong>20</strong></td>
                             <td>Salvatore Ferragamo</td>
                             <td>Ribbon</td>
                             <td>5</td>
@@ -7137,7 +7669,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         </tr>
 
                         <tr>
-                            <td><strong>18</strong></td>
+                            <td><strong>21</strong></td>
                             <td>(不明)</td>
                             <td>Tiara</td>
                             <td>8</td>
@@ -7148,7 +7680,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         </tr>
 
                         <tr>
-                            <td><strong>19</strong></td>
+                            <td><strong>22</strong></td>
                             <td>スタジオジブリ</td>
                             <td>Headband</td>
                             <td>4</td>
@@ -7159,7 +7691,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         </tr>
 
                         <tr>
-                            <td><strong>20</strong></td>
+                            <td><strong>23</strong></td>
                             <td>DIOR</td>
                             <td>Scrunchie</td>
                             <td>6</td>
@@ -7170,7 +7702,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         </tr>
 
                         <tr>
-                            <td><strong>21</strong></td>
+                            <td><strong>24</strong></td>
                             <td>Pokemon</td>
                             <td>Hair Clip</td>
                             <td>3</td>
@@ -7181,7 +7713,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         </tr>
 
                         <tr>
-                            <td><strong>22</strong></td>
+                            <td><strong>25</strong></td>
                             <td>Disney</td>
                             <td>Headband</td>
                             <td>8</td>
@@ -7257,17 +7789,6 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
 
                         <tr>
                             <td><strong>4</strong></td>
-                            <td>(不明)</td>
-                            <td>Other</td>
-                            <td>127</td>
-                            <td>$78.51</td>
-                            <td>¥6,735</td>
-                            <td>高</td>
-                            <td>855,375</td>
-                        </tr>
-
-                        <tr>
-                            <td><strong>5</strong></td>
                             <td>GUCCI</td>
                             <td>Headband</td>
                             <td>40</td>
@@ -7275,6 +7796,17 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                             <td>¥18,526</td>
                             <td>中</td>
                             <td>741,056</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>5</strong></td>
+                            <td>(不明)</td>
+                            <td>Other</td>
+                            <td>120</td>
+                            <td>$73.57</td>
+                            <td>¥6,122</td>
+                            <td>高</td>
+                            <td>734,721</td>
                         </tr>
 
                         <tr>
@@ -7290,6 +7822,17 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
 
                         <tr>
                             <td><strong>7</strong></td>
+                            <td>Miu Miu</td>
+                            <td>Hair Clip</td>
+                            <td>16</td>
+                            <td>$274.04</td>
+                            <td>¥30,980</td>
+                            <td>高</td>
+                            <td>495,695</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>8</strong></td>
                             <td>PRADA</td>
                             <td>Headband</td>
                             <td>17</td>
@@ -7300,7 +7843,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         </tr>
 
                         <tr>
-                            <td><strong>8</strong></td>
+                            <td><strong>9</strong></td>
                             <td>CHANEL</td>
                             <td>Other</td>
                             <td>19</td>
@@ -7311,7 +7854,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         </tr>
 
                         <tr>
-                            <td><strong>9</strong></td>
+                            <td><strong>10</strong></td>
                             <td>LOUIS VUITTON</td>
                             <td>Barrette</td>
                             <td>14</td>
@@ -7322,18 +7865,18 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         </tr>
 
                         <tr>
-                            <td><strong>10</strong></td>
-                            <td>(不明)</td>
-                            <td>Barrette</td>
-                            <td>76</td>
-                            <td>$60.81</td>
-                            <td>¥4,540</td>
-                            <td>高</td>
-                            <td>345,073</td>
+                            <td><strong>11</strong></td>
+                            <td>Salvatore Ferragamo</td>
+                            <td>Headband</td>
+                            <td>39</td>
+                            <td>$89.00</td>
+                            <td>¥8,036</td>
+                            <td>中</td>
+                            <td>313,404</td>
                         </tr>
 
                         <tr>
-                            <td><strong>11</strong></td>
+                            <td><strong>12</strong></td>
                             <td>LOUIS VUITTON</td>
                             <td>Other</td>
                             <td>27</td>
@@ -7341,17 +7884,6 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                             <td>¥11,037</td>
                             <td>高</td>
                             <td>298,010</td>
-                        </tr>
-
-                        <tr>
-                            <td><strong>12</strong></td>
-                            <td>Salvatore Ferragamo</td>
-                            <td>Headband</td>
-                            <td>38</td>
-                            <td>$87.00</td>
-                            <td>¥7,788</td>
-                            <td>中</td>
-                            <td>295,944</td>
                         </tr>
 
                         <tr>
@@ -7488,6 +8020,17 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
 
                         <tr>
                             <td><strong>25</strong></td>
+                            <td>Alexandre de Paris</td>
+                            <td>Barrette</td>
+                            <td>17</td>
+                            <td>$96.00</td>
+                            <td>¥8,904</td>
+                            <td>高</td>
+                            <td>151,368</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>26</strong></td>
                             <td>HERMES</td>
                             <td>Scrunchie</td>
                             <td>5</td>
@@ -7498,7 +8041,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         </tr>
 
                         <tr>
-                            <td><strong>26</strong></td>
+                            <td><strong>27</strong></td>
                             <td>GUCCI</td>
                             <td>Other</td>
                             <td>17</td>
@@ -7509,7 +8052,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         </tr>
 
                         <tr>
-                            <td><strong>27</strong></td>
+                            <td><strong>28</strong></td>
                             <td>HERMES</td>
                             <td>Comb</td>
                             <td>9</td>
@@ -7520,7 +8063,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         </tr>
 
                         <tr>
-                            <td><strong>28</strong></td>
+                            <td><strong>29</strong></td>
                             <td>HERMES</td>
                             <td>Hair Clip</td>
                             <td>7</td>
@@ -7531,7 +8074,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                         </tr>
 
                         <tr>
-                            <td><strong>29</strong></td>
+                            <td><strong>30</strong></td>
                             <td>HERMES</td>
                             <td>Other</td>
                             <td>7</td>
@@ -7539,17 +8082,6 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
                             <td>¥17,460</td>
                             <td>高</td>
                             <td>122,220</td>
-                        </tr>
-
-                        <tr>
-                            <td><strong>30</strong></td>
-                            <td>PRADA</td>
-                            <td>Barrette</td>
-                            <td>3</td>
-                            <td>$325.00</td>
-                            <td>¥37,300</td>
-                            <td>高</td>
-                            <td>111,900</td>
                         </tr>
 
                     </tbody>
@@ -7625,15 +8157,15 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
         // ブランドカテゴリ別円グラフ
         Plotly.newPlot('brandCatPieChart', [{
             labels: ["\u30ce\u30fc\u30d6\u30e9\u30f3\u30c9", "\u30c7\u30b6\u30a4\u30ca\u30fc", "\u30cf\u30a4\u30d6\u30e9\u30f3\u30c9", "\u30ad\u30e3\u30e9\u30af\u30bf\u30fc", "\u305d\u306e\u4ed6"],
-            values: [696, 189, 566, 71, 40],
+            values: [636, 249, 566, 71, 40],
             type: 'pie',
             hole: 0.4
         }], {...plotlyLayout, title: 'ブランドカテゴリ別シェア'}, plotlyConfig);
 
         // ブランド別棒グラフ
         Plotly.newPlot('brandBarChart', [{
-            y: ["(\u4e0d\u660e)", "CHANEL", "LOUIS VUITTON", "DIOR", "Salvatore Ferragamo", "Vivienne Westwood", "GUCCI", "HERMES", "SANRIO", "PRADA"],
-            x: [696, 195, 93, 81, 78, 70, 69, 37, 37, 34],
+            y: ["(\u4e0d\u660e)", "CHANEL", "LOUIS VUITTON", "DIOR", "Salvatore Ferragamo", "Vivienne Westwood", "GUCCI", "HERMES", "SANRIO", "Alexandre de Paris"],
+            x: [636, 195, 93, 81, 79, 70, 69, 37, 37, 36],
             type: 'bar',
             orientation: 'h',
             marker: { color: '#9c27b0' }
@@ -7641,8 +8173,8 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
 
         // ブランド別円グラフ
         Plotly.newPlot('brandPieChart', [{
-            labels: ["(\u4e0d\u660e)", "CHANEL", "LOUIS VUITTON", "DIOR", "Salvatore Ferragamo", "Vivienne Westwood", "GUCCI", "HERMES", "SANRIO", "PRADA"],
-            values: [696, 195, 93, 81, 78, 70, 69, 37, 37, 34],
+            labels: ["(\u4e0d\u660e)", "CHANEL", "LOUIS VUITTON", "DIOR", "Salvatore Ferragamo", "Vivienne Westwood", "GUCCI", "HERMES", "SANRIO", "Alexandre de Paris"],
+            values: [636, 195, 93, 81, 79, 70, 69, 37, 37, 36],
             type: 'pie'
         }], {...plotlyLayout, title: 'ブランド別シェア（Top10）'}, plotlyConfig);
 
@@ -7812,7 +8344,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
         // Salvatore Ferragamoの価格帯分布
         Plotly.newPlot('Salvatore_Ferragamo_price_chart', [{
             x: ["$0-49", "$50-99", "$100-149", "$150-199", "$200-249", "$250-299", "$300-349", "$350-399", "$400-449", "$450-499", "$500-549", "$550-599", "$600-649", "$650-699", "$700-749", "$750-799", "$800-849", "$850-899", "$900-949", "$950-999", "$1000+"],
-            y: [10, 44, 16, 7, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            y: [10, 44, 17, 7, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             type: 'bar',
             marker: { color: '#e91e63' }
         }], {...plotlyLayout, xaxis: { title: '価格帯' }, yaxis: { title: '件数' }}, plotlyConfig);
@@ -7820,7 +8352,7 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
         // Salvatore Ferragamoのアイテムタイプ別分布
         Plotly.newPlot('Salvatore_Ferragamo_item_chart', [{
             labels: ["Barrette", "Hair Clip", "Headband", "Other", "Ribbon"],
-            values: [27, 2, 40, 4, 5],
+            values: [27, 2, 41, 4, 5],
             type: 'pie',
             hole: 0.4
         }], {...plotlyLayout}, plotlyConfig);
@@ -7869,6 +8401,22 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
         Plotly.newPlot('FENDI_item_chart', [{
             labels: ["Barrette", "Hair Clip", "Headband", "Other", "Scrunchie"],
             values: [6, 1, 15, 3, 5],
+            type: 'pie',
+            hole: 0.4
+        }], {...plotlyLayout}, plotlyConfig);
+
+        // Alexandre de Parisの価格帯分布
+        Plotly.newPlot('Alexandre_de_Paris_price_chart', [{
+            x: ["$0-49", "$50-99", "$100-149", "$150-199", "$200-249", "$250-299", "$300-349", "$350-399", "$400-449", "$450-499", "$500-549", "$550-599", "$600-649", "$650-699", "$700-749", "$750-799", "$800-849", "$850-899", "$900-949", "$950-999", "$1000+"],
+            y: [1, 15, 11, 7, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            type: 'bar',
+            marker: { color: '#e91e63' }
+        }], {...plotlyLayout, xaxis: { title: '価格帯' }, yaxis: { title: '件数' }}, plotlyConfig);
+
+        // Alexandre de Parisのアイテムタイプ別分布
+        Plotly.newPlot('Alexandre_de_Paris_item_chart', [{
+            labels: ["Barrette", "Hair Clip", "Headband", "Other"],
+            values: [18, 8, 6, 4],
             type: 'pie',
             hole: 0.4
         }], {...plotlyLayout}, plotlyConfig);

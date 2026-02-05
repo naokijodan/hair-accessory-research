@@ -63,6 +63,26 @@ DESIGNER_BRANDS = ['Vivienne Westwood', 'Salvatore Ferragamo', 'Miu Miu', 'DOLCE
                    'Alexandre de Paris', 'colette malouf', 'adidas', 'H&M', 'BURBERRY']
 CHARACTER_BRANDS = ['SANRIO', 'Disney', 'Pokemon', 'miffy']
 
+# 全ブランドリスト（タイトルからの検出用）
+ALL_BRANDS = HIGH_BRANDS + DESIGNER_BRANDS + CHARACTER_BRANDS
+
+# ブランド列が(不明)の場合、タイトルからブランドを検出して補完
+def detect_brand_from_title(row):
+    brand = row['ブランド']
+    title = str(row['タイトル']).upper()
+
+    # ブランド列が(不明)または空の場合、タイトルから検出
+    if pd.isna(brand) or brand == '(不明)':
+        for b in ALL_BRANDS:
+            if b.upper() in title:
+                return b
+    return brand
+
+df['ブランド'] = df.apply(detect_brand_from_title, axis=1)
+
+print(f"=== ブランド補完後 ===")
+print(df['ブランド'].value_counts().head(20).to_string())
+
 def categorize_brand(brand):
     if pd.isna(brand) or brand == '(不明)':
         return 'ノーブランド'
@@ -513,6 +533,13 @@ tr:hover { background: rgba(233, 30, 99, 0.05); }
     border-top: 3px solid #F7DB00;
 }
 .fendi-accent { color: #C4A000; font-weight: bold; }
+
+/* Alexandre de Paris固有のスタイル */
+#Alexandre_de_Paris .stat-card {
+    background: linear-gradient(135deg, #8B000015 0%, #8B000005 100%);
+    border-top: 3px solid #8B0000;
+}
+.adp-accent { color: #8B0000; font-weight: bold; }
 '''
 
 # HTML開始
@@ -575,6 +602,7 @@ html_parts.append(f'''<!DOCTYPE html>
         <button class="tab" onclick="showTab('DIOR')">DIOR</button>
         <button class="tab" onclick="showTab('CELINE')">CELINE</button>
         <button class="tab" onclick="showTab('FENDI')">FENDI</button>
+        <button class="tab" onclick="showTab('Alexandre_de_Paris')">Alexandre de Paris</button>
     </div>
 ''')
 
@@ -1003,6 +1031,7 @@ brand_tabs = [
     ('DIOR', 'DIOR', 'dior-accent'),
     ('CELINE', 'CELINE', 'celine-accent'),
     ('FENDI', 'FENDI', 'fendi-accent'),
+    ('Alexandre de Paris', 'Alexandre_de_Paris', 'adp-accent'),
 ]
 
 for brand_name, tab_id, accent_class in brand_tabs:
