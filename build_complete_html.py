@@ -26,8 +26,8 @@ df['販売数'] = pd.to_numeric(df['販売数'], errors='coerce').fillna(1).asty
 df['売上'] = df['価格'] * df['販売数']
 
 # 総販売数・総売上
-total_sales = df['販売数'].sum()
-total_revenue = df['売上'].sum()
+total_sales = int(df['販売数'].sum())
+total_revenue = float(df['売上'].sum())
 
 # 期間
 period_start = df['販売日'].min()
@@ -35,7 +35,7 @@ period_end = df['販売日'].max()
 
 # アイテムタイプ分類
 def extract_item_type(title):
-    title_upper = title.upper()
+    title_upper = str(title).upper()
     if 'TIARA' in title_upper:
         return 'Tiara'
     if 'HEADBAND' in title_upper or 'HAIR BAND' in title_upper or 'HAIRBAND' in title_upper:
@@ -123,7 +123,7 @@ df['仕入れ上限'] = df['価格'] * EXCHANGE_RATE * (1 - FEE_RATE) - SHIPPING
 def calc_cv(prices):
     if len(prices) < 2:
         return 0
-    return prices.std() / prices.mean() if prices.mean() > 0 else 0
+    return float(prices.std() / prices.mean()) if prices.mean() > 0 else 0
 
 # 月次データ抽出
 df['販売月'] = pd.to_datetime(df['販売日']).dt.to_period('M').astype(str)
@@ -143,7 +143,7 @@ for item_type in df['アイテムタイプ'].unique():
     if len(type_df) < 3:
         continue
     item_type_stats[item_type] = {
-        'count': len(type_df),
+        'count': int(len(type_df)),
         'sales': int(type_df['販売数'].sum()),
         'revenue': float(type_df['売上'].sum()),
         'avg_price': float(type_df['価格'].mean()),
@@ -161,7 +161,7 @@ for brand in df['ブランド'].unique():
     if len(brand_df) < 2:
         continue
     brand_stats[brand] = {
-        'count': len(brand_df),
+        'count': int(len(brand_df)),
         'sales': int(brand_df['販売数'].sum()),
         'revenue': float(brand_df['売上'].sum()),
         'avg_price': float(brand_df['価格'].mean()),
@@ -184,7 +184,7 @@ brand_cat_stats = {}
 for cat in df['ブランドカテゴリ'].unique():
     cat_df = df[df['ブランドカテゴリ'] == cat]
     brand_cat_stats[cat] = {
-        'count': len(cat_df),
+        'count': int(len(cat_df)),
         'sales': int(cat_df['販売数'].sum()),
         'revenue': float(cat_df['売上'].sum()),
         'avg_price': float(cat_df['価格'].mean()),
@@ -194,7 +194,7 @@ for cat in df['ブランドカテゴリ'].unique():
 # まとめ売り統計
 bulk_df = df[df['まとめ売り'] == True]
 bulk_stats = {
-    'count': len(bulk_df),
+    'count': int(len(bulk_df)),
     'sales': int(bulk_df['販売数'].sum()),
     'avg_price': float(bulk_df['価格'].mean()) if len(bulk_df) > 0 else 0,
     'median_price': float(bulk_df['価格'].median()) if len(bulk_df) > 0 else 0
@@ -205,7 +205,6 @@ def get_price_distribution(prices):
     bins = [0, 25, 50, 75, 100, 150, 200, 300, 500, 1000, float('inf')]
     labels = ['$0-24', '$25-49', '$50-74', '$75-99', '$100-149', '$150-199', '$200-299', '$300-499', '$500-999', '$1000+']
     distribution = pd.cut(prices, bins=bins, labels=labels).value_counts().sort_index()
-    # numpy型をネイティブPython型に変換
     return {k: int(v) for k, v in distribution.items()}
 
 price_dist = get_price_distribution(df['価格'])
@@ -225,7 +224,7 @@ grouped.columns = ['取引件数', '平均価格', '中央値', '最低価格', 
 grouped['CV'] = grouped['標準偏差'] / grouped['平均価格']
 grouped['CV'] = grouped['CV'].fillna(0)
 
-# 回転重視：CV <= 0.5, 仕入上限 <= ¥30,000, 販売数 >= 3
+# 回転重視
 rotation_df = grouped[(grouped['CV'] <= 0.5) & (grouped['仕入れ上限'] <= 30000) & (grouped['販売数'] >= 3)]
 rotation_df = rotation_df.copy()
 rotation_df['スコア'] = rotation_df['仕入れ上限'] * rotation_df['販売数']
@@ -243,7 +242,7 @@ for idx, row in rotation_df.head(20).iterrows():
         'score': float(row['スコア'])
     })
 
-# 利益重視：全データ、スコア = 仕入上限 × 販売数
+# 利益重視
 profit_df = grouped.copy()
 profit_df['スコア'] = profit_df['仕入れ上限'] * profit_df['販売数']
 profit_df = profit_df.sort_values('スコア', ascending=False)
@@ -261,23 +260,22 @@ for idx, row in profit_df.head(30).iterrows():
         'score': float(row['スコア'])
     })
 
-# 主要アイテムタイプ（タブ生成用）
+# 主要アイテムタイプ
 main_item_types = ['Barrette', 'Headband', 'Hair Clip', 'Tiara', 'Scrunchie', 'Kanzashi']
 
-# ブランド別詳細データ（主要ブランド用）
+# ブランド別詳細データ
 def get_brand_detail(brand_name):
     brand_df = df[df['ブランド'] == brand_name]
     if len(brand_df) < 3:
         return None
 
-    # アイテムタイプ別統計
     type_stats = []
     for item_type in brand_df['アイテムタイプ'].unique():
         type_df = brand_df[brand_df['アイテムタイプ'] == item_type]
         if len(type_df) >= 1:
             type_stats.append({
                 'item_type': item_type,
-                'count': len(type_df),
+                'count': int(len(type_df)),
                 'sales': int(type_df['販売数'].sum()),
                 'avg_price': float(type_df['価格'].mean()),
                 'median_price': float(type_df['価格'].median()),
@@ -287,7 +285,7 @@ def get_brand_detail(brand_name):
             })
 
     return {
-        'total_count': len(brand_df),
+        'total_count': int(len(brand_df)),
         'total_sales': int(brand_df['販売数'].sum()),
         'total_revenue': float(brand_df['売上'].sum()),
         'avg_price': float(brand_df['価格'].mean()),
@@ -297,8 +295,8 @@ def get_brand_detail(brand_name):
         'cv': float(calc_cv(brand_df['価格'])),
         'purchase_limit': float(brand_df['仕入れ上限'].median()),
         'type_stats': sorted(type_stats, key=lambda x: x['sales'], reverse=True),
-        'novelty_count': len(brand_df[brand_df['ノベルティ'] == True]),
-        'bulk_count': len(brand_df[brand_df['まとめ売り'] == True])
+        'novelty_count': int(len(brand_df[brand_df['ノベルティ'] == True])),
+        'bulk_count': int(len(brand_df[brand_df['まとめ売り'] == True]))
     }
 
 brand_details = {}
@@ -306,6 +304,29 @@ for brand in top_brands:
     detail = get_brand_detail(brand)
     if detail:
         brand_details[brand] = detail
+
+# グラフ描画コードを収集
+chart_scripts = []
+
+# 月次売上データ
+monthly_labels = monthly_sales['販売月'].tolist()
+monthly_values = [float(v) for v in monthly_sales['売上'].tolist()]
+
+# ブランド別シェア用データ
+brand_pie_labels = list(brand_stats.keys())[:10]
+brand_pie_values = [brand_stats[b]['sales'] for b in brand_pie_labels]
+
+# アイテムタイプ別データ
+item_pie_labels = list(item_type_stats.keys())
+item_pie_values = [item_type_stats[t]['sales'] for t in item_pie_labels]
+
+# 価格帯分布データ
+price_dist_labels = list(price_dist.keys())
+price_dist_values = list(price_dist.values())
+
+# ブランドカテゴリ別データ
+cat_pie_labels = list(brand_cat_stats.keys())
+cat_pie_values = [brand_cat_stats[c]['sales'] for c in cat_pie_labels]
 
 # ========== HTML生成 ==========
 
@@ -406,29 +427,9 @@ def generate_brand_table(data, tab_id):
         </div>
     '''
 
-# 月次売上データ
-monthly_labels = monthly_sales['販売月'].tolist()
-monthly_values = monthly_sales['売上'].tolist()
-
-# ブランド別シェア用データ
-brand_pie_labels = list(brand_stats.keys())[:10]
-brand_pie_values = [brand_stats[b]['sales'] for b in brand_pie_labels]
-
-# アイテムタイプ別データ
-item_pie_labels = list(item_type_stats.keys())
-item_pie_values = [item_type_stats[t]['sales'] for t in item_pie_labels]
-
-# 価格帯分布データ
-price_dist_labels = list(price_dist.keys())
-price_dist_values = list(price_dist.values())
-
-# ブランドカテゴリ別データ
-cat_pie_labels = list(brand_cat_stats.keys())
-cat_pie_values = [brand_cat_stats[c]['sales'] for c in cat_pie_labels]
-
 # 主要アイテムタイプ用のタブ内容生成
 def generate_item_type_tab(item_type):
-    """アイテムタイプ別タブの内容を生成"""
+    """アイテムタイプ別タブの内容を生成（スクリプトなし）"""
     type_df = df[df['アイテムタイプ'] == item_type]
     if len(type_df) < 3:
         return f'''
@@ -436,10 +437,10 @@ def generate_item_type_tab(item_type):
             <h2 class="section-title">{item_type} 市場分析</h2>
             <p>データが不足しています（{len(type_df)}件）</p>
         </div>
-        '''
+        ''', None
 
     stats = {
-        'count': len(type_df),
+        'count': int(len(type_df)),
         'sales': int(type_df['販売数'].sum()),
         'revenue': float(type_df['売上'].sum()),
         'avg_price': float(type_df['価格'].mean()),
@@ -450,13 +451,12 @@ def generate_item_type_tab(item_type):
         'purchase_limit': float(type_df['仕入れ上限'].median())
     }
 
-    # ブランド別統計（このアイテムタイプ内）
     type_brand_stats = {}
     for brand in type_df['ブランド'].unique():
         brand_df = type_df[type_df['ブランド'] == brand]
         if len(brand_df) >= 1:
             type_brand_stats[brand] = {
-                'count': len(brand_df),
+                'count': int(len(brand_df)),
                 'sales': int(brand_df['販売数'].sum()),
                 'avg_price': float(brand_df['価格'].mean()),
                 'median_price': float(brand_df['価格'].median()),
@@ -466,56 +466,52 @@ def generate_item_type_tab(item_type):
                 'purchase_limit': float(brand_df['仕入れ上限'].median())
             }
 
-    # グラフ用データ
     top_brands_in_type = sorted(type_brand_stats.items(), key=lambda x: x[1]['sales'], reverse=True)[:10]
     chart_labels = [b[0] for b in top_brands_in_type]
     chart_values = [b[1]['sales'] for b in top_brands_in_type]
 
     tab_id = item_type.lower().replace(' ', '_')
 
-    return f'''
+    html = f'''
     <div id="type_{tab_id}" class="tab-content">
         <h2 class="section-title">{item_type} 市場分析</h2>
-
         {generate_stats_grid(stats)}
-
         <h3 class="section-title">📊 市場分析グラフ</h3>
         <div class="chart-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
             <div class="chart-container"><div id="{tab_id}_brand_bar"></div></div>
             <div class="chart-container"><div id="{tab_id}_brand_pie"></div></div>
         </div>
-
         <h3 class="section-title">🏷️ ブランド別集計（Top20）</h3>
         {generate_brand_table(type_brand_stats, tab_id)}
     </div>
-
-    <script>
-    Plotly.newPlot('{tab_id}_brand_bar', [{{
-        x: {chart_values},
-        y: {json.dumps(chart_labels, ensure_ascii=False)},
-        type: 'bar',
-        orientation: 'h',
-        marker: {{color: '#E91E63'}}
-    }}], {{...plotlyLayout, title: 'ブランド別販売数（Top10）'}}, plotlyConfig);
-
-    Plotly.newPlot('{tab_id}_brand_pie', [{{
-        labels: {json.dumps(chart_labels, ensure_ascii=False)},
-        values: {chart_values},
-        type: 'pie'
-    }}], {{...plotlyLayout, title: 'ブランド別シェア'}}, plotlyConfig);
-    </script>
     '''
+
+    script = f'''
+        Plotly.newPlot('{tab_id}_brand_bar', [{{
+            x: {chart_values},
+            y: {json.dumps(chart_labels, ensure_ascii=False)},
+            type: 'bar',
+            orientation: 'h',
+            marker: {{color: '#E91E63'}}
+        }}], {{...plotlyLayout, title: 'ブランド別販売数（Top10）'}}, plotlyConfig);
+        Plotly.newPlot('{tab_id}_brand_pie', [{{
+            labels: {json.dumps(chart_labels, ensure_ascii=False)},
+            values: {chart_values},
+            type: 'pie'
+        }}], {{...plotlyLayout, title: 'ブランド別シェア'}}, plotlyConfig);
+    '''
+
+    return html, script
 
 # 主要ブランド用のタブ内容生成
 def generate_brand_tab(brand_name):
-    """ブランド別タブの内容を生成"""
+    """ブランド別タブの内容を生成（スクリプトなし）"""
     if brand_name not in brand_details:
-        return ''
+        return '', None
 
     detail = brand_details[brand_name]
     tab_id = brand_name.lower().replace(' ', '_').replace('.', '').replace('&', '')
 
-    # アイテムタイプ別テーブル
     type_rows = []
     for ts in detail['type_stats'][:15]:
         keyword = f"{brand_name.replace(' ', '+')}+{ts['item_type'].replace(' ', '+')}"
@@ -534,7 +530,6 @@ def generate_brand_tab(brand_name):
                     </tr>
         ''')
 
-    # グラフ用データ
     chart_labels = [ts['item_type'] for ts in detail['type_stats'][:8]]
     chart_values = [ts['sales'] for ts in detail['type_stats'][:8]]
 
@@ -549,12 +544,10 @@ def generate_brand_tab(brand_name):
         'purchase_limit': detail['purchase_limit']
     }
 
-    return f'''
+    html = f'''
     <div id="brand_{tab_id}" class="tab-content">
         <h2 class="section-title">{brand_name} 詳細分析</h2>
-
         {generate_stats_grid(stats)}
-
         <div class="insight-box">
             <h3>💡 {brand_name} の特徴</h3>
             <ul>
@@ -564,13 +557,11 @@ def generate_brand_tab(brand_name):
                 <li>📦 まとめ売り: {detail['bulk_count']}件</li>
             </ul>
         </div>
-
         <h3 class="section-title">📊 アイテムタイプ別分析</h3>
         <div class="chart-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
             <div class="chart-container"><div id="{tab_id}_type_bar"></div></div>
             <div class="chart-container"><div id="{tab_id}_type_pie"></div></div>
         </div>
-
         <h3 class="section-title">🏷️ アイテムタイプ別集計</h3>
         <div class="table-container">
             <table>
@@ -591,23 +582,55 @@ def generate_brand_tab(brand_name):
             </table>
         </div>
     </div>
-
-    <script>
-    Plotly.newPlot('{tab_id}_type_bar', [{{
-        x: {chart_values},
-        y: {json.dumps(chart_labels, ensure_ascii=False)},
-        type: 'bar',
-        orientation: 'h',
-        marker: {{color: '#9C27B0'}}
-    }}], {{...plotlyLayout, title: 'アイテムタイプ別販売数'}}, plotlyConfig);
-
-    Plotly.newPlot('{tab_id}_type_pie', [{{
-        labels: {json.dumps(chart_labels, ensure_ascii=False)},
-        values: {chart_values},
-        type: 'pie'
-    }}], {{...plotlyLayout, title: 'アイテムタイプ別シェア'}}, plotlyConfig);
-    </script>
     '''
+
+    script = f'''
+        Plotly.newPlot('{tab_id}_type_bar', [{{
+            x: {chart_values},
+            y: {json.dumps(chart_labels, ensure_ascii=False)},
+            type: 'bar',
+            orientation: 'h',
+            marker: {{color: '#9C27B0'}}
+        }}], {{...plotlyLayout, title: 'アイテムタイプ別販売数'}}, plotlyConfig);
+        Plotly.newPlot('{tab_id}_type_pie', [{{
+            labels: {json.dumps(chart_labels, ensure_ascii=False)},
+            values: {chart_values},
+            type: 'pie'
+        }}], {{...plotlyLayout, title: 'アイテムタイプ別シェア'}}, plotlyConfig);
+    '''
+
+    return html, script
+
+# タブとスクリプトを収集
+item_type_tabs_html = []
+item_type_scripts = []
+for t in main_item_types:
+    if t in item_type_stats:
+        html, script = generate_item_type_tab(t)
+        item_type_tabs_html.append(html)
+        if script:
+            item_type_scripts.append(script)
+
+brand_tabs_html = []
+brand_scripts = []
+for b in top_brands[:6]:
+    html, script = generate_brand_tab(b)
+    if html:
+        brand_tabs_html.append(html)
+    if script:
+        brand_scripts.append(script)
+
+# アイテムタイプタブボタン
+item_type_tab_buttons = ''.join([
+    f'<button class="tab" onclick="showTab(\'type_{t.lower().replace(" ", "_")}\')">{t}</button>'
+    for t in main_item_types if t in item_type_stats
+])
+
+# ブランドタブボタン
+brand_tab_buttons = ''.join([
+    f'<button class="tab" onclick="showTab(\'brand_{b.lower().replace(" ", "_").replace(".", "").replace("&", "")}\')">{b}</button>'
+    for b in top_brands[:6]
+])
 
 # おすすめ回転重視テーブル
 rotation_rows = []
@@ -643,22 +666,6 @@ for i, rec in enumerate(recommend_profit[:20], 1):
                         </tr>
     ''')
 
-# メインタブ生成
-item_type_tabs = ''.join([generate_item_type_tab(t) for t in main_item_types if t in item_type_stats])
-brand_tabs = ''.join([generate_brand_tab(b) for b in top_brands[:6]])
-
-# アイテムタイプタブボタン
-item_type_tab_buttons = ''.join([
-    f'<button class="tab" onclick="showTab(\'type_{t.lower().replace(" ", "_")}\')">{t}</button>'
-    for t in main_item_types if t in item_type_stats
-])
-
-# ブランドタブボタン
-brand_tab_buttons = ''.join([
-    f'<button class="tab" onclick="showTab(\'brand_{b.lower().replace(" ", "_").replace(".", "").replace("&", "")}\')">{b}</button>'
-    for b in top_brands[:6]
-])
-
 # CITES警告品
 cites_df = df[df['CITES_RISK'] == True]
 cites_warning = ''
@@ -669,6 +676,9 @@ if len(cites_df) > 0:
             <p>べっ甲・象牙などのワシントン条約規制対象の可能性がある商品が検出されました。輸出入には許可証が必要です。</p>
         </div>
     '''
+
+# 全スクリプトを結合
+all_chart_scripts = '\n'.join(item_type_scripts + brand_scripts)
 
 # HTML生成
 html_content = f'''<!DOCTYPE html>
@@ -689,7 +699,6 @@ html_content = f'''<!DOCTYPE html>
             --accent-light: #FCE4EC;
             --card-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }}
-
         [data-theme="dark"] {{
             --bg-primary: #1a1a2e;
             --bg-secondary: #16213e;
@@ -699,304 +708,65 @@ html_content = f'''<!DOCTYPE html>
             --accent-light: #3a1a2e;
             --card-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }}
-
         * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            line-height: 1.6;
-        }}
-
-        .header {{
-            background: linear-gradient(135deg, #E91E63 0%, #9C27B0 100%);
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-        }}
-
-        .header h1 {{
-            font-size: 2em;
-            margin-bottom: 10px;
-        }}
-
-        .header .subtitle {{
-            opacity: 0.9;
-            font-size: 1.1em;
-        }}
-
-        .settings-panel {{
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            padding: 15px;
-            margin: 20px auto;
-            max-width: 800px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            align-items: center;
-        }}
-
-        .settings-panel label {{
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9em;
-        }}
-
-        .settings-panel input {{
-            width: 80px;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            text-align: right;
-        }}
-
-        .settings-panel button {{
-            background: white;
-            color: #E91E63;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }}
-
-        .settings-panel button:hover {{
-            background: #FCE4EC;
-        }}
-
-        .container {{
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }}
-
-        .tab-nav {{
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin-bottom: 20px;
-            background: var(--bg-primary);
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: var(--card-shadow);
-        }}
-
-        .tab {{
-            padding: 10px 20px;
-            border: none;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.3s;
-            font-size: 0.9em;
-        }}
-
-        .tab:hover {{
-            background: var(--accent-light);
-        }}
-
-        .tab.active {{
-            background: var(--accent-color);
-            color: white;
-        }}
-
-        .tab-content {{
-            display: none;
-            background: var(--bg-primary);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: var(--card-shadow);
-        }}
-
-        .tab-content.active {{
-            display: block;
-        }}
-
-        .section-title {{
-            font-size: 1.3em;
-            margin: 20px 0 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--accent-color);
-        }}
-
-        .stats-grid {{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }}
-
-        .stat-card {{
-            background: var(--bg-secondary);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-        }}
-
-        .stat-card .icon {{
-            font-size: 1.5em;
-            margin-bottom: 5px;
-        }}
-
-        .stat-card .label {{
-            font-size: 0.8em;
-            color: var(--text-secondary);
-            margin-bottom: 5px;
-        }}
-
-        .stat-card .value {{
-            font-size: 1.4em;
-            font-weight: bold;
-            color: var(--text-primary);
-        }}
-
-        .stat-card .value.highlight {{
-            color: var(--accent-color);
-        }}
-
-        .chart-grid {{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }}
-
-        .chart-container {{
-            background: var(--bg-secondary);
-            padding: 15px;
-            border-radius: 10px;
-            min-height: 350px;
-        }}
-
-        .table-container {{
-            overflow-x: auto;
-            margin-bottom: 20px;
-        }}
-
-        table {{
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9em;
-        }}
-
-        th, td {{
-            padding: 12px 10px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }}
-
-        th {{
-            background: var(--bg-secondary);
-            font-weight: 600;
-            position: sticky;
-            top: 0;
-        }}
-
-        tr:hover {{
-            background: var(--accent-light);
-        }}
-
-        .highlight {{
-            color: var(--accent-color);
-            font-weight: bold;
-        }}
-
-        .link-btn {{
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 0.8em;
-            margin: 2px;
-        }}
-
-        .link-ebay {{
-            background: #0064D2;
-            color: white;
-        }}
-
-        .link-mercari {{
-            background: #FF0211;
-            color: white;
-        }}
-
-        .insight-box {{
-            background: linear-gradient(135deg, var(--accent-light), var(--bg-secondary));
-            border-left: 4px solid var(--accent-color);
-            padding: 15px 20px;
-            border-radius: 0 10px 10px 0;
-            margin: 20px 0;
-        }}
-
-        .insight-box h3 {{
-            margin-bottom: 10px;
-        }}
-
-        .insight-box ul {{
-            margin-left: 20px;
-        }}
-
-        .mode-selector {{
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: var(--bg-secondary);
-            border-radius: 10px;
-        }}
-
-        .mode-selector label {{
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }}
-
+        body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-secondary); color: var(--text-primary); line-height: 1.6; }}
+        .header {{ background: linear-gradient(135deg, #E91E63 0%, #9C27B0 100%); color: white; padding: 30px 20px; text-align: center; }}
+        .header h1 {{ font-size: 2em; margin-bottom: 10px; }}
+        .header .subtitle {{ opacity: 0.9; font-size: 1.1em; }}
+        .settings-panel {{ background: rgba(255,255,255,0.1); border-radius: 10px; padding: 15px; margin: 20px auto; max-width: 800px; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: center; }}
+        .settings-panel label {{ display: flex; align-items: center; gap: 8px; font-size: 0.9em; }}
+        .settings-panel input {{ width: 80px; padding: 5px 10px; border: none; border-radius: 5px; text-align: right; }}
+        .settings-panel button {{ background: white; color: #E91E63; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-weight: bold; }}
+        .settings-panel button:hover {{ background: #FCE4EC; }}
+        .container {{ max-width: 1400px; margin: 0 auto; padding: 20px; }}
+        .tab-nav {{ display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 20px; background: var(--bg-primary); padding: 10px; border-radius: 10px; box-shadow: var(--card-shadow); }}
+        .tab {{ padding: 10px 20px; border: none; background: var(--bg-secondary); color: var(--text-primary); cursor: pointer; border-radius: 5px; transition: all 0.3s; font-size: 0.9em; }}
+        .tab:hover {{ background: var(--accent-light); }}
+        .tab.active {{ background: var(--accent-color); color: white; }}
+        .tab-content {{ display: none; background: var(--bg-primary); padding: 20px; border-radius: 10px; box-shadow: var(--card-shadow); }}
+        .tab-content.active {{ display: block; }}
+        .section-title {{ font-size: 1.3em; margin: 20px 0 15px; padding-bottom: 10px; border-bottom: 2px solid var(--accent-color); }}
+        .stats-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px; }}
+        .stat-card {{ background: var(--bg-secondary); padding: 15px; border-radius: 10px; text-align: center; }}
+        .stat-card .icon {{ font-size: 1.5em; margin-bottom: 5px; }}
+        .stat-card .label {{ font-size: 0.8em; color: var(--text-secondary); margin-bottom: 5px; }}
+        .stat-card .value {{ font-size: 1.4em; font-weight: bold; color: var(--text-primary); }}
+        .stat-card .value.highlight {{ color: var(--accent-color); }}
+        .chart-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin-bottom: 20px; }}
+        .chart-container {{ background: var(--bg-secondary); padding: 15px; border-radius: 10px; min-height: 350px; }}
+        .table-container {{ overflow-x: auto; margin-bottom: 20px; }}
+        table {{ width: 100%; border-collapse: collapse; font-size: 0.9em; }}
+        th, td {{ padding: 12px 10px; text-align: left; border-bottom: 1px solid var(--border-color); }}
+        th {{ background: var(--bg-secondary); font-weight: 600; position: sticky; top: 0; }}
+        tr:hover {{ background: var(--accent-light); }}
+        .highlight {{ color: var(--accent-color); font-weight: bold; }}
+        .link-btn {{ display: inline-block; padding: 4px 10px; border-radius: 4px; text-decoration: none; font-size: 0.8em; margin: 2px; }}
+        .link-ebay {{ background: #0064D2; color: white; }}
+        .link-mercari {{ background: #FF0211; color: white; }}
+        .insight-box {{ background: linear-gradient(135deg, var(--accent-light), var(--bg-secondary)); border-left: 4px solid var(--accent-color); padding: 15px 20px; border-radius: 0 10px 10px 0; margin: 20px 0; }}
+        .insight-box h3 {{ margin-bottom: 10px; }}
+        .insight-box ul {{ margin-left: 20px; }}
+        .mode-selector {{ display: flex; gap: 20px; margin-bottom: 20px; padding: 15px; background: var(--bg-secondary); border-radius: 10px; }}
+        .mode-selector label {{ display: flex; align-items: center; gap: 8px; cursor: pointer; }}
         .risk-low {{ color: #4CAF50; font-weight: bold; }}
         .risk-mid {{ color: #FF9800; font-weight: bold; }}
         .risk-high {{ color: #f44336; font-weight: bold; }}
-
-        @media (max-width: 768px) {{
-            .chart-grid {{
-                grid-template-columns: 1fr;
-            }}
-            .stats-grid {{
-                grid-template-columns: repeat(2, 1fr);
-            }}
-        }}
+        @media (max-width: 768px) {{ .chart-grid {{ grid-template-columns: 1fr; }} .stats-grid {{ grid-template-columns: repeat(2, 1fr); }} }}
     </style>
 </head>
 <body>
     <div class="header">
         <h1>髪飾り市場分析</h1>
         <p class="subtitle">eBay転売リサーチ - {period_start} ~ {period_end}</p>
-
         <div class="settings-panel">
-            <label>
-                💴 為替レート
-                <input type="number" id="exchangeRate" value="{EXCHANGE_RATE}" step="0.1">
-                <button onclick="updateExchangeRate()">最新取得</button>
-            </label>
-            <label>
-                📦 送料
-                <input type="number" id="shippingCost" value="{SHIPPING_JPY}">
-            </label>
-            <label>
-                💳 手数料率
-                <input type="number" id="feeRate" value="{int(FEE_RATE*100)}" step="1">%
-            </label>
+            <label>💴 為替レート<input type="number" id="exchangeRate" value="{EXCHANGE_RATE}" step="0.1"><button onclick="updateExchangeRate()">最新取得</button></label>
+            <label>📦 送料<input type="number" id="shippingCost" value="{SHIPPING_JPY}"></label>
+            <label>💳 手数料率<input type="number" id="feeRate" value="{int(FEE_RATE*100)}" step="1">%</label>
             <button onclick="recalculate()">再計算</button>
             <button id="themeBtn" onclick="toggleTheme()">🌙 ダークモード</button>
         </div>
     </div>
-
     <div class="container">
-        <!-- 1次タブナビゲーション -->
         <div class="tab-nav">
             <button class="tab active" onclick="showTab('overview')">📊 全体分析</button>
             <button class="tab" onclick="showTab('item_types')">🎀 アイテム別</button>
@@ -1004,56 +774,19 @@ html_content = f'''<!DOCTYPE html>
             <button class="tab" onclick="showTab('bundle')">📦 まとめ売り</button>
             <button class="tab" onclick="showTab('recommend')">⭐ おすすめ順序</button>
         </div>
-
-        <!-- 全体分析タブ -->
         <div id="overview" class="tab-content active">
             <h2 class="section-title">📊 全体市場分析</h2>
-
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="icon">📊</div>
-                    <div class="label">取引件数</div>
-                    <div class="value">{len(df):,}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="icon">📦</div>
-                    <div class="label">総販売数</div>
-                    <div class="value">{total_sales:,}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="icon">💵</div>
-                    <div class="label">総売上</div>
-                    <div class="value">${total_revenue:,.2f}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="icon">📈</div>
-                    <div class="label">平均価格</div>
-                    <div class="value">${df['価格'].mean():,.2f}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="icon">💰</div>
-                    <div class="label">中央値</div>
-                    <div class="value">${df['価格'].median():,.2f}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="icon">⬆️</div>
-                    <div class="label">最高価格</div>
-                    <div class="value">${df['価格'].max():,.2f}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="icon">📉</div>
-                    <div class="label">CV値</div>
-                    <div class="value">{calc_cv(df['価格']):.3f}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="icon">💴</div>
-                    <div class="label">仕入上限中央値</div>
-                    <div class="value highlight">¥{df['仕入れ上限'].median():,.0f}</div>
-                </div>
+                <div class="stat-card"><div class="icon">📊</div><div class="label">取引件数</div><div class="value">{len(df):,}</div></div>
+                <div class="stat-card"><div class="icon">📦</div><div class="label">総販売数</div><div class="value">{total_sales:,}</div></div>
+                <div class="stat-card"><div class="icon">💵</div><div class="label">総売上</div><div class="value">${total_revenue:,.2f}</div></div>
+                <div class="stat-card"><div class="icon">📈</div><div class="label">平均価格</div><div class="value">${float(df['価格'].mean()):,.2f}</div></div>
+                <div class="stat-card"><div class="icon">💰</div><div class="label">中央値</div><div class="value">${float(df['価格'].median()):,.2f}</div></div>
+                <div class="stat-card"><div class="icon">⬆️</div><div class="label">最高価格</div><div class="value">${float(df['価格'].max()):,.2f}</div></div>
+                <div class="stat-card"><div class="icon">📉</div><div class="label">CV値</div><div class="value">{calc_cv(df['価格']):.3f}</div></div>
+                <div class="stat-card"><div class="icon">💴</div><div class="label">仕入上限中央値</div><div class="value highlight">¥{float(df['仕入れ上限'].median()):,.0f}</div></div>
             </div>
-
             {cites_warning}
-
             <h3 class="section-title">📊 市場分析グラフ</h3>
             <div class="chart-grid">
                 <div class="chart-container"><div id="monthly_chart"></div></div>
@@ -1062,55 +795,26 @@ html_content = f'''<!DOCTYPE html>
                 <div class="chart-container"><div id="price_dist_chart"></div></div>
                 <div class="chart-container"><div id="category_pie_chart"></div></div>
             </div>
-
             <h3 class="section-title">🏷️ ブランド別集計（Top20）</h3>
             {generate_brand_table(brand_stats, 'overview')}
         </div>
-
-        <!-- アイテムタイプ別タブ -->
         <div id="item_types" class="tab-content">
             <h2 class="section-title">🎀 アイテムタイプ別分析</h2>
-            <div class="tab-nav">
-                {item_type_tab_buttons}
-            </div>
+            <div class="tab-nav">{item_type_tab_buttons}</div>
         </div>
-
-        {item_type_tabs}
-
-        <!-- ブランド別タブ -->
+        {''.join(item_type_tabs_html)}
         <div id="brands" class="tab-content">
             <h2 class="section-title">🏷️ ブランド別詳細分析</h2>
-            <div class="tab-nav">
-                {brand_tab_buttons}
-            </div>
+            <div class="tab-nav">{brand_tab_buttons}</div>
         </div>
-
-        {brand_tabs}
-
-        <!-- まとめ売りタブ -->
+        {''.join(brand_tabs_html)}
         <div id="bundle" class="tab-content">
             <h2 class="section-title">📦 まとめ売り分析</h2>
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="icon">📦</div>
-                    <div class="label">まとめ売り件数</div>
-                    <div class="value">{bulk_stats['count']:,}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="icon">📊</div>
-                    <div class="label">総販売数</div>
-                    <div class="value">{bulk_stats['sales']:,}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="icon">💰</div>
-                    <div class="label">平均価格</div>
-                    <div class="value">${bulk_stats['avg_price']:,.2f}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="icon">📈</div>
-                    <div class="label">中央値</div>
-                    <div class="value">${bulk_stats['median_price']:,.2f}</div>
-                </div>
+                <div class="stat-card"><div class="icon">📦</div><div class="label">まとめ売り件数</div><div class="value">{bulk_stats['count']:,}</div></div>
+                <div class="stat-card"><div class="icon">📊</div><div class="label">総販売数</div><div class="value">{bulk_stats['sales']:,}</div></div>
+                <div class="stat-card"><div class="icon">💰</div><div class="label">平均価格</div><div class="value">${bulk_stats['avg_price']:,.2f}</div></div>
+                <div class="stat-card"><div class="icon">📈</div><div class="label">中央値</div><div class="value">${bulk_stats['median_price']:,.2f}</div></div>
             </div>
             <div class="insight-box">
                 <h3>💡 まとめ売りの特徴</h3>
@@ -1121,80 +825,40 @@ html_content = f'''<!DOCTYPE html>
                 </ul>
             </div>
         </div>
-
-        <!-- おすすめ出品順序タブ -->
         <div id="recommend" class="tab-content">
             <h2 class="section-title">⭐ おすすめ出品順序</h2>
-
             <div class="mode-selector">
                 <label><input type="radio" name="recMode" value="rotation" checked onchange="switchRecMode()"> 🔄 回転重視（初心者向け）</label>
                 <label><input type="radio" name="recMode" value="profit" onchange="switchRecMode()"> 💰 利益重視（経験者向け）</label>
             </div>
-
             <div id="rotationMode">
                 <div class="insight-box">
                     <h3>🔄 回転重視モードの条件</h3>
-                    <ul>
-                        <li>変動係数（CV）≤ 0.5（価格が安定）</li>
-                        <li>仕入上限 ≤ ¥30,000（低資金でも仕入可能）</li>
-                        <li>販売数 ≥ 3件（一定の需要）</li>
-                    </ul>
+                    <ul><li>変動係数（CV）≤ 0.5（価格が安定）</li><li>仕入上限 ≤ ¥30,000（低資金でも仕入可能）</li><li>販売数 ≥ 3件（一定の需要）</li></ul>
                 </div>
                 <div class="table-container">
                     <table>
-                        <thead>
-                            <tr>
-                                <th>順位</th>
-                                <th>ブランド</th>
-                                <th>アイテムタイプ</th>
-                                <th>販売数</th>
-                                <th>中央値($)</th>
-                                <th>仕入上限</th>
-                                <th>安定度</th>
-                                <th>スコア</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {''.join(rotation_rows)}
-                        </tbody>
+                        <thead><tr><th>順位</th><th>ブランド</th><th>アイテムタイプ</th><th>販売数</th><th>中央値($)</th><th>仕入上限</th><th>安定度</th><th>スコア</th></tr></thead>
+                        <tbody>{''.join(rotation_rows)}</tbody>
                     </table>
                 </div>
             </div>
-
             <div id="profitMode" style="display:none;">
                 <div class="insight-box">
                     <h3>💰 利益重視モードの特徴</h3>
-                    <ul>
-                        <li>スコア = 仕入上限 × 販売数</li>
-                        <li>全商品が対象（フィルタなし）</li>
-                        <li>高単価・高需要商品を優先</li>
-                    </ul>
+                    <ul><li>スコア = 仕入上限 × 販売数</li><li>全商品が対象（フィルタなし）</li><li>高単価・高需要商品を優先</li></ul>
                 </div>
                 <div class="table-container">
                     <table>
-                        <thead>
-                            <tr>
-                                <th>順位</th>
-                                <th>ブランド</th>
-                                <th>アイテムタイプ</th>
-                                <th>販売数</th>
-                                <th>中央値($)</th>
-                                <th>仕入上限</th>
-                                <th>リスク</th>
-                                <th>スコア</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {''.join(profit_rows)}
-                        </tbody>
+                        <thead><tr><th>順位</th><th>ブランド</th><th>アイテムタイプ</th><th>販売数</th><th>中央値($)</th><th>仕入上限</th><th>リスク</th><th>スコア</th></tr></thead>
+                        <tbody>{''.join(profit_rows)}</tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-
     <script>
-    // Plotly共通設定
+    // Plotly共通設定（グローバルスコープで定義）
     const plotlyLayout = {{
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)',
@@ -1203,7 +867,6 @@ html_content = f'''<!DOCTYPE html>
     }};
     const plotlyConfig = {{ responsive: true, displayModeBar: false }};
 
-    // テーマ切替
     function toggleTheme() {{
         const html = document.documentElement;
         const currentTheme = html.getAttribute('data-theme');
@@ -1213,7 +876,6 @@ html_content = f'''<!DOCTYPE html>
         localStorage.setItem('theme', newTheme);
     }}
 
-    // タブ切替
     function showTab(tabId) {{
         document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
@@ -1221,14 +883,12 @@ html_content = f'''<!DOCTYPE html>
         event.target.classList.add('active');
     }}
 
-    // おすすめモード切替
     function switchRecMode() {{
         const mode = document.querySelector('input[name="recMode"]:checked').value;
         document.getElementById('rotationMode').style.display = mode === 'rotation' ? 'block' : 'none';
         document.getElementById('profitMode').style.display = mode === 'profit' ? 'block' : 'none';
     }}
 
-    // 為替レート最新取得
     async function updateExchangeRate() {{
         try {{
             const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
@@ -1242,16 +902,13 @@ html_content = f'''<!DOCTYPE html>
         }}
     }}
 
-    // 再計算
     function recalculate() {{
         const rate = parseFloat(document.getElementById('exchangeRate').value);
         const shipping = parseFloat(document.getElementById('shippingCost').value);
         const feeRate = parseFloat(document.getElementById('feeRate').value) / 100;
-
         document.querySelectorAll('.highlight').forEach(el => {{
             const row = el.closest('tr');
             if (!row) return;
-
             const cells = row.querySelectorAll('td');
             for (let cell of cells) {{
                 const text = cell.textContent.trim();
@@ -1265,7 +922,6 @@ html_content = f'''<!DOCTYPE html>
         }});
     }}
 
-    // 初期化
     document.addEventListener('DOMContentLoaded', function() {{
         const savedTheme = localStorage.getItem('theme') || 'light';
         if (savedTheme === 'dark') {{
@@ -1273,42 +929,41 @@ html_content = f'''<!DOCTYPE html>
             document.getElementById('themeBtn').textContent = '☀️ ライトモード';
         }}
 
-        // 月次売上グラフ
+        // 全体分析グラフ
         Plotly.newPlot('monthly_chart', [{{
             x: {json.dumps(monthly_labels)},
-            y: {monthly_values},
+            y: {json.dumps(monthly_values)},
             type: 'bar',
             marker: {{color: '#E91E63'}}
         }}], {{...plotlyLayout, title: '月次売上推移'}}, plotlyConfig);
 
-        // ブランド別シェア
         Plotly.newPlot('brand_pie_chart', [{{
             labels: {json.dumps(brand_pie_labels, ensure_ascii=False)},
-            values: {brand_pie_values},
+            values: {json.dumps(brand_pie_values)},
             type: 'pie'
         }}], {{...plotlyLayout, title: 'ブランド別販売シェア（Top10）'}}, plotlyConfig);
 
-        // アイテムタイプ別
         Plotly.newPlot('item_type_chart', [{{
             labels: {json.dumps(item_pie_labels, ensure_ascii=False)},
-            values: {item_pie_values},
+            values: {json.dumps(item_pie_values)},
             type: 'pie'
         }}], {{...plotlyLayout, title: 'アイテムタイプ別シェア'}}, plotlyConfig);
 
-        // 価格帯分布
         Plotly.newPlot('price_dist_chart', [{{
             x: {json.dumps(price_dist_labels)},
-            y: {price_dist_values},
+            y: {json.dumps(price_dist_values)},
             type: 'bar',
             marker: {{color: '#9C27B0'}}
         }}], {{...plotlyLayout, title: '価格帯分布'}}, plotlyConfig);
 
-        // ブランドカテゴリ別
         Plotly.newPlot('category_pie_chart', [{{
             labels: {json.dumps(cat_pie_labels, ensure_ascii=False)},
-            values: {cat_pie_values},
+            values: {json.dumps(cat_pie_values)},
             type: 'pie'
         }}], {{...plotlyLayout, title: 'ブランドカテゴリ別シェア'}}, plotlyConfig);
+
+        // アイテムタイプ別・ブランド別グラフ
+        {all_chart_scripts}
     }});
     </script>
 </body>
